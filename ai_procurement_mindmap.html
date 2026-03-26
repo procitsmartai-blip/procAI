@@ -1,0 +1,941 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Procurement — Interactive Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f11;
+    --bg2: #16181c;
+    --bg3: #1e2026;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e9ec;
+    --text2: #9499a8;
+    --text3: #5a6070;
+    --teal: #1D9E75; --teal-l: #5DCAA5; --teal-d: #0a2820; --teal-b: #0F6E56;
+    --blue: #378ADD; --blue-l: #85B7EB; --blue-d: #0d1f35; --blue-b: #185FA5;
+    --purple: #7F77DD; --purple-l: #AFA9EC; --purple-d: #1a1530; --purple-b: #534AB7;
+    --amber: #EF9F27; --amber-l: #FAC775; --amber-d: #2a1a08; --amber-b: #854F0B;
+    --coral: #D85A30; --coral-l: #F0997B; --coral-d: #2d1008; --coral-b: #993C1D;
+    --radius: 10px;
+    --radius-lg: 14px;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+
+  /* HEADER */
+  .header {
+    padding: 28px 32px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+  .header-left { display: flex; align-items: center; gap: 14px; }
+  .header-badge {
+    width: 36px; height: 36px; border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal-d), #0d2e22);
+    border: 1px solid var(--teal);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .header-title { font-size: 16px; font-weight: 600; color: var(--text); }
+  .header-sub { font-size: 12px; color: var(--text3); margin-top: 1px; font-family: 'DM Mono', monospace; }
+
+  /* MAIN LAYOUT */
+  .main { display: flex; min-height: calc(100vh - 73px); }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 220px; min-width: 220px;
+    padding: 20px 14px;
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 4px;
+    position: sticky; top: 73px;
+    height: calc(100vh - 73px);
+    overflow-y: auto;
+  }
+  .sidebar-label {
+    font-size: 10px; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text3);
+    padding: 4px 10px 8px; margin-top: 4px;
+  }
+  .nav-btn {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 12px; border-radius: 8px; border: none;
+    background: transparent; color: var(--text2);
+    font-family: 'DM Sans', sans-serif; font-size: 13px;
+    cursor: pointer; transition: all .18s; text-align: left; width: 100%;
+  }
+  .nav-btn:hover { background: var(--bg3); color: var(--text); }
+  .nav-btn.active { color: var(--text); background: var(--bg3); }
+  .nav-btn .nav-dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    border: 1.5px solid currentColor; opacity: .5;
+  }
+  .nav-btn.active .nav-dot { opacity: 1; }
+  .nav-btn[data-color="teal"].active .nav-dot,
+  .nav-btn[data-color="teal"]:hover .nav-dot { background: var(--teal); border-color: var(--teal); opacity: 1; }
+  .nav-btn[data-color="blue"].active .nav-dot,
+  .nav-btn[data-color="blue"]:hover .nav-dot { background: var(--blue); border-color: var(--blue); opacity: 1; }
+  .nav-btn[data-color="purple"].active .nav-dot,
+  .nav-btn[data-color="purple"]:hover .nav-dot { background: var(--purple); border-color: var(--purple); opacity: 1; }
+  .nav-btn[data-color="amber"].active .nav-dot,
+  .nav-btn[data-color="amber"]:hover .nav-dot { background: var(--amber); border-color: var(--amber); opacity: 1; }
+  .nav-btn[data-color="coral"].active .nav-dot,
+  .nav-btn[data-color="coral"]:hover .nav-dot { background: var(--coral); border-color: var(--coral); opacity: 1; }
+
+  /* CONTENT */
+  .content { flex: 1; padding: 28px 32px; overflow-y: auto; max-width: 960px; }
+
+  /* SECTION */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn .2s ease; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+  .section-title { font-size: 22px; font-weight: 600; color: var(--text); margin-bottom: 6px; }
+  .section-desc { font-size: 13px; color: var(--text2); margin-bottom: 24px; line-height: 1.6; }
+  .sec-label {
+    font-size: 10px; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text3);
+    margin-bottom: 12px; margin-top: 24px;
+  }
+
+  /* OVERVIEW */
+  .ov-row {
+    display: flex; align-items: stretch; border-radius: var(--radius-lg);
+    overflow: hidden; border: 1.5px solid; margin-bottom: 10px;
+    cursor: pointer; transition: filter .18s;
+  }
+  .ov-row:hover { filter: brightness(1.1); }
+  .ov-num {
+    width: 56px; min-width: 56px; display: flex; align-items: center;
+    justify-content: center; font-size: 20px; font-weight: 600; color: #fff;
+  }
+  .ov-body { flex: 1; padding: 14px 18px; }
+  .ov-title { font-size: 14px; font-weight: 500; margin-bottom: 3px; }
+  .ov-desc { font-size: 12px; line-height: 1.55; opacity: .8; }
+  .ov-tag {
+    padding: 4px 14px; border-radius: 20px; font-size: 11px; font-weight: 500;
+    align-self: center; white-space: nowrap; margin: 0 16px;
+    font-family: 'DM Mono', monospace;
+  }
+  .ov-arrow { text-align: center; color: var(--text3); font-size: 18px; margin-bottom: 10px; }
+
+  .ov-row.lv1 { background: #1a3a4a; border-color: var(--blue); }
+  .ov-row.lv1 .ov-num { background: var(--blue); }
+  .ov-row.lv1 .ov-title { color: var(--blue-l); }
+  .ov-row.lv1 .ov-desc { color: var(--blue-l); }
+  .ov-row.lv1 .ov-tag { background: var(--blue-b); color: var(--blue-l); }
+  .ov-row.lv2 { background: #2a1f4a; border-color: var(--purple); }
+  .ov-row.lv2 .ov-num { background: var(--purple); }
+  .ov-row.lv2 .ov-title { color: var(--purple-l); }
+  .ov-row.lv2 .ov-desc { color: var(--purple-l); }
+  .ov-row.lv2 .ov-tag { background: var(--purple-b); color: var(--purple-l); }
+  .ov-row.lv3 { background: #2d2010; border-color: var(--amber); }
+  .ov-row.lv3 .ov-num { background: var(--amber); }
+  .ov-row.lv3 .ov-title { color: var(--amber-l); }
+  .ov-row.lv3 .ov-desc { color: var(--amber-l); }
+  .ov-row.lv3 .ov-tag { background: var(--amber-b); color: var(--amber-l); }
+  .ov-row.lv4 { background: #0d2e22; border-color: var(--teal); }
+  .ov-row.lv4 .ov-num { background: var(--teal); }
+  .ov-row.lv4 .ov-title { color: var(--teal-l); }
+  .ov-row.lv4 .ov-desc { color: var(--teal-l); }
+  .ov-row.lv4 .ov-tag { background: var(--teal-b); color: var(--teal-l); }
+
+  /* CARD GRID */
+  .card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 16px; cursor: pointer;
+    transition: border-color .18s, background .18s;
+  }
+  .card:hover { border-color: var(--border2); background: var(--bg3); }
+  .card.open { border-color: var(--teal); }
+  .card-head { display: flex; align-items: center; gap: 12px; }
+  .card-icon { font-size: 22px; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--text); }
+  .card-sub { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .card-body { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); display: none; }
+  .card.open .card-body { display: block; }
+  .card-body p { font-size: 12px; color: var(--text2); line-height: 1.6; margin-bottom: 10px; }
+
+  /* TOOL CARDS */
+  .tool-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .tool-card { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 16px; }
+  .tool-name { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+  .tool-badge {
+    font-size: 10px; padding: 2px 8px; border-radius: 8px;
+    background: var(--bg3); color: var(--text3);
+    margin-bottom: 12px; display: inline-block; font-family: 'DM Mono', monospace;
+  }
+
+  /* BUBBLES */
+  .bubble-wrap { margin: 10px 0; display: flex; flex-direction: column; gap: 8px; }
+  .bubble { display: flex; gap: 8px; }
+  .bubble-label {
+    font-size: 9px; font-weight: 600; padding: 3px 7px; border-radius: 6px;
+    white-space: nowrap; align-self: flex-start; margin-top: 4px;
+    font-family: 'DM Mono', monospace; letter-spacing: .04em;
+  }
+  .bubble.you .bubble-label { background: var(--teal-d); color: var(--teal-l); border: 1px solid var(--teal); }
+  .bubble.ai .bubble-label { background: var(--purple-d); color: var(--purple-l); border: 1px solid var(--purple); }
+  .bubble-text {
+    font-size: 12px; color: var(--text2); background: var(--bg3);
+    border-radius: 8px; padding: 9px 13px; line-height: 1.6; flex: 1;
+    border: 1px solid var(--border);
+  }
+
+  /* FLOW PILLS */
+  .flow { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin: 10px 0; }
+  .step-pill {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 14px; padding: 4px 11px;
+    font-size: 11px; color: var(--text2);
+  }
+  .step-arr { color: var(--text3); font-size: 12px; }
+
+  /* AGENT CARDS */
+  .agent-card-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; margin-bottom: 16px; }
+  .agent-card { border-radius: var(--radius-lg); border: 1.5px solid; padding: 18px; cursor: pointer; transition: filter .18s; }
+  .agent-card:hover { filter: brightness(1.08); }
+  .agent-card.ac-teal { background: var(--teal-d); border-color: var(--teal); }
+  .agent-card.ac-blue { background: var(--blue-d); border-color: var(--blue); }
+  .agent-card.ac-purple { background: var(--purple-d); border-color: var(--purple); }
+  .agent-card.ac-amber { background: var(--amber-d); border-color: var(--amber); }
+  .agent-card.ac-coral { background: var(--coral-d); border-color: var(--coral); }
+  .agent-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .agent-card-icon { font-size: 24px; }
+  .agent-card-name { font-size: 14px; font-weight: 600; }
+  .ac-teal .agent-card-name { color: var(--teal-l); }
+  .ac-blue .agent-card-name { color: var(--blue-l); }
+  .ac-purple .agent-card-name { color: var(--purple-l); }
+  .ac-amber .agent-card-name { color: var(--amber-l); }
+  .ac-coral .agent-card-name { color: var(--coral-l); }
+  .agent-card-role { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .agent-divider { height: 1px; margin-bottom: 12px; opacity: .3; }
+  .ac-teal .agent-divider { background: var(--teal); }
+  .ac-blue .agent-divider { background: var(--blue); }
+  .ac-purple .agent-divider { background: var(--purple); }
+  .ac-amber .agent-divider { background: var(--amber); }
+  .ac-coral .agent-divider { background: var(--coral); }
+  .agent-card-body { font-size: 12px; color: var(--text2); line-height: 1.6; }
+  .agent-pill-row { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 10px; }
+  .agent-pill { font-size: 10px; padding: 3px 9px; border-radius: 10px; border: 1px solid; font-family: 'DM Mono', monospace; }
+  .ac-teal .agent-pill { border-color: var(--teal); color: var(--teal-l); }
+  .ac-blue .agent-pill { border-color: var(--blue); color: var(--blue-l); }
+  .ac-purple .agent-pill { border-color: var(--purple); color: var(--purple-l); }
+  .ac-amber .agent-pill { border-color: var(--amber); color: var(--amber-l); }
+  .ac-coral .agent-pill { border-color: var(--coral); color: var(--coral-l); }
+  .agent-expand { display: none; margin-top: 14px; padding-top: 14px; }
+  .agent-card.open .agent-expand { display: block; }
+  .ac-teal .agent-expand { border-top: 1px solid rgba(29,158,117,.3); }
+  .ac-blue .agent-expand { border-top: 1px solid rgba(55,138,221,.3); }
+  .ac-purple .agent-expand { border-top: 1px solid rgba(127,119,221,.3); }
+  .ac-amber .agent-expand { border-top: 1px solid rgba(239,159,39,.3); }
+  .ac-coral .agent-expand { border-top: 1px solid rgba(216,90,48,.3); }
+  .agent-expand p { font-size: 12px; color: var(--text2); line-height: 1.65; margin-bottom: 8px; }
+  .agent-expand strong { font-weight: 500; }
+  .ac-teal .agent-expand strong { color: var(--teal-l); }
+  .ac-blue .agent-expand strong { color: var(--blue-l); }
+  .ac-purple .agent-expand strong { color: var(--purple-l); }
+  .ac-amber .agent-expand strong { color: var(--amber-l); }
+  .ac-coral .agent-expand strong { color: var(--coral-l); }
+
+  /* MINI SUB-TABS */
+  .subtabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+  .subtab {
+    padding: 6px 16px; border-radius: 16px; border: 1px solid var(--border2);
+    background: var(--bg2); color: var(--text2); font-size: 12px;
+    cursor: pointer; transition: all .18s; font-family: 'DM Sans', sans-serif;
+  }
+  .subtab:hover { background: var(--bg3); color: var(--text); }
+  .subtab.active { background: var(--teal-d); border-color: var(--teal); color: var(--teal-l); }
+  .subsection { display: none; }
+  .subsection.active { display: block; animation: fadeIn .2s ease; }
+
+  /* MVP STEPS — HORIZONTAL */
+  .mvp-legend { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 18px; align-items: center; }
+  .mvp-leg { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text2); }
+  .mvp-leg-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid; flex-shrink: 0; }
+  .mvp-hint { margin-left: auto; font-size: 11px; color: var(--text3); font-style: italic; }
+
+  .phase-block { margin-bottom: 8px; }
+  .phase-hdr { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+  .phase-pill { font-size: 10px; font-weight: 500; letter-spacing: .07em; text-transform: uppercase; padding: 3px 12px; border-radius: 20px; white-space: nowrap; }
+  .ph-pr  { background: var(--teal-d);   color: var(--teal-l);   border: 1px solid var(--teal);   }
+  .ph-src { background: var(--blue-d);   color: var(--blue-l);   border: 1px solid var(--blue);   }
+  .ph-po  { background: var(--amber-d);  color: var(--amber-l);  border: 1px solid var(--amber);  }
+  .phase-line { flex: 1; height: 1px; background: var(--border); }
+
+  .h-rail { display: flex; align-items: flex-start; overflow-x: auto; padding-bottom: 6px; gap: 0; }
+  .h-rail::-webkit-scrollbar { height: 4px; }
+  .h-rail::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
+  .h-node-wrap { display: flex; align-items: flex-start; flex-shrink: 0; }
+  .h-node {
+    width: 138px; cursor: pointer;
+    background: var(--bg2); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 12px 11px;
+    transition: border-color .15s, background .15s;
+  }
+  .h-node:hover { background: var(--bg3); border-color: var(--border2); }
+  .h-node.sel { background: var(--bg); }
+  .h-node.sel.nt-ai    { border-color: var(--teal);   }
+  .h-node.sel.nt-human { border-color: var(--purple); }
+  .h-node.sel.nt-gold  { border-color: var(--amber);  }
+
+  .h-num { width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 500; margin-bottom: 8px; font-family: 'DM Mono', monospace; }
+  .nn-ai    { background: var(--teal-d);   color: var(--teal-l);   border: 1px solid var(--teal);   }
+  .nn-human { background: var(--purple-d); color: var(--purple-l); border: 1px solid var(--purple); }
+  .nn-gold  { background: var(--amber-d);  color: var(--amber-l);  border: 1px solid var(--amber);  }
+
+  .h-title { font-size: 11px; font-weight: 500; color: var(--text); line-height: 1.35; margin-bottom: 7px; }
+  .h-badge { font-size: 9px; padding: 2px 7px; border-radius: 7px; font-weight: 500; display: inline-block; font-family: 'DM Mono', monospace; }
+  .hb-ai    { background: var(--teal-d);   color: var(--teal-l);   border: 1px solid var(--teal);   }
+  .hb-human { background: var(--purple-d); color: var(--purple-l); border: 1px solid var(--purple); }
+  .hb-gold  { background: var(--amber-d);  color: var(--amber-l);  border: 1px solid var(--amber);  }
+  .h-stars { display: block; font-size: 10px; color: var(--amber); margin-top: 5px; }
+  .h-stars.hs-hu { color: var(--purple-l); }
+
+  .h-arr { display: flex; align-items: center; padding: 0 5px; color: var(--text3); font-size: 14px; margin-top: 16px; flex-shrink: 0; }
+
+  .h-detail {
+    margin: 10px 0 18px; background: var(--bg2); border-radius: 12px; padding: 16px;
+    display: none; border: 1.5px solid;
+    animation: detailPop .2s ease;
+  }
+  @keyframes detailPop { from { opacity:0; transform:translateY(-5px); } to { opacity:1; transform:translateY(0); } }
+  .h-detail.open { display: block; }
+  .h-detail.nt-ai    { border-color: var(--teal);   }
+  .h-detail.nt-human { border-color: var(--purple); }
+  .h-detail.nt-gold  { border-color: var(--amber);  }
+  .hd-hdr { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 10px; }
+  .hd-num { width: 28px; height: 28px; min-width: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 500; font-family: 'DM Mono', monospace; }
+  .hd-title { font-size: 14px; font-weight: 500; color: var(--text); }
+  .hd-sub { font-size: 11px; color: var(--text2); margin-top: 2px; }
+  .hd-close { margin-left: auto; font-size: 15px; cursor: pointer; color: var(--text3); padding: 2px 6px; border-radius: 5px; }
+  .hd-close:hover { background: var(--bg3); color: var(--text); }
+  .hd-body { font-size: 12px; color: var(--text2); line-height: 1.7; }
+
+  /* ORCH DIAGRAM */
+  .orch-box-wrap { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 20px; margin-bottom: 16px; }
+  .orch-box {
+    background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 8px; padding: 9px 16px;
+    text-align: center; font-size: 12px; color: var(--text);
+  }
+  .orch-box.main { background: var(--teal-d); border-color: var(--teal); color: var(--teal-l); font-weight: 500; }
+  .orch-box.human { background: var(--purple-d); border-color: var(--purple); color: var(--purple-l); font-weight: 500; }
+  .orch-box.done { border-color: var(--teal); color: var(--teal-l); }
+  .orch-row { display: flex; justify-content: center; gap: 8px; margin: 8px 0; flex-wrap: wrap; }
+  .orch-arr { text-align: center; color: var(--text3); font-size: 14px; margin: 4px 0; }
+
+  /* WORKFLOW */
+  .wf-phase { margin-bottom: 20px; }
+  .wf-phase-title {
+    font-size: 10px; font-weight: 500; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--text3); margin-bottom: 10px;
+  }
+  .wf-steps { display: flex; flex-wrap: wrap; gap: 8px; align-items: stretch; }
+  .wf-step { flex: 1; min-width: 160px; }
+  .wf-step-inner {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px; height: 100%;
+    transition: border-color .18s;
+  }
+  .wf-step-inner:hover { border-color: var(--border2); }
+  .wf-step-num { font-size: 10px; color: var(--text3); margin-bottom: 5px; font-family: 'DM Mono', monospace; }
+  .wf-step-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 6px; }
+  .wf-step-agent {
+    font-size: 10px; padding: 3px 9px; border-radius: 8px; display: inline-block;
+    margin-bottom: 8px; font-family: 'DM Mono', monospace;
+  }
+  .wf-step-agent.teal { background: var(--teal-d); color: var(--teal-l); border: 1px solid var(--teal); }
+  .wf-step-agent.blue { background: var(--blue-d); color: var(--blue-l); border: 1px solid var(--blue); }
+  .wf-step-agent.purple { background: var(--purple-d); color: var(--purple-l); border: 1px solid var(--purple); }
+  .wf-step-agent.amber { background: var(--amber-d); color: var(--amber-l); border: 1px solid var(--amber); }
+  .wf-step-agent.coral { background: var(--coral-d); color: var(--coral-l); border: 1px solid var(--coral); }
+  .wf-step-agent.human { background: var(--purple-d); color: var(--purple-l); border: 1px solid var(--purple); }
+  .wf-step-desc { font-size: 11px; color: var(--text3); line-height: 1.55; }
+  .wf-arrow { display: flex; align-items: center; color: var(--text3); font-size: 18px; padding: 0 2px; }
+  .wf-connector { text-align: center; color: var(--text3); font-size: 16px; margin: 10px 0; }
+  .wf-outcome {
+    background: var(--teal-d); border: 1.5px solid var(--teal);
+    border-radius: var(--radius-lg); padding: 18px; margin-top: 16px;
+  }
+  .wf-outcome-title { font-size: 13px; font-weight: 500; color: var(--teal-l); margin-bottom: 12px; }
+  .wf-outcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; }
+  .wf-outcome-item { background: rgba(0,0,0,.3); border-radius: 8px; padding: 12px; text-align: center; }
+  .wf-outcome-num { font-size: 20px; font-weight: 600; color: var(--teal); font-family: 'DM Mono', monospace; }
+  .wf-outcome-label { font-size: 10px; color: var(--teal-l); margin-top: 3px; line-height: 1.4; opacity: .8; }
+
+  /* BUILD SEQ */
+  .build-seq {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-lg); padding: 16px; margin-top: 4px;
+  }
+  .build-seq .sec-label { margin-top: 0; }
+
+  /* AGENT GRID 2x2 */
+  .agent-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+  .agent-mini { background: var(--bg3); border-radius: 8px; padding: 10px 12px; }
+  .agent-mini-title { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .agent-mini-desc { font-size: 11px; color: var(--text3); line-height: 1.5; }
+
+  /* OUTCOME */
+  .outcome-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 8px; margin-top: 12px; }
+  .outcome-box { background: var(--bg2); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; text-align: center; }
+  .outcome-num { font-size: 20px; font-weight: 600; color: var(--teal); font-family: 'DM Mono', monospace; }
+  .outcome-label { font-size: 11px; color: var(--text3); margin-top: 3px; line-height: 1.4; }
+
+  /* FOOTER */
+  .footer {
+    padding: 16px 32px; border-top: 1px solid var(--border);
+    font-size: 11px; color: var(--text3); text-align: center;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 720px) {
+    .sidebar { display: none; }
+    .content { padding: 20px 16px; }
+    .header { padding: 16px; }
+    .agent-mini-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) {
+    .wf-steps { flex-direction: column; }
+    .wf-arrow { display: none; }
+    .ov-tag { display: none; }
+  }
+
+  /* mobile nav strip */
+  .mobile-tabs {
+    display: none; padding: 10px 16px; gap: 6px;
+    overflow-x: auto; border-bottom: 1px solid var(--border);
+    background: var(--bg);
+  }
+  @media (max-width: 720px) { .mobile-tabs { display: flex; } }
+  .mobile-tab {
+    padding: 6px 14px; border-radius: 14px; border: 1px solid var(--border2);
+    background: transparent; color: var(--text2);
+    font-size: 12px; cursor: pointer; white-space: nowrap;
+    font-family: 'DM Sans', sans-serif; transition: all .18s;
+  }
+  .mobile-tab.active { background: var(--teal-d); border-color: var(--teal); color: var(--teal-l); }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="header-left">
+    <div class="header-badge">🤖</div>
+    <div>
+      <div class="header-title">AI for Procurement — Interactive Roadmap</div>
+      <div class="header-sub">Level 1 → Level 2 → Level 3 → Level 4 MVP</div>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile nav -->
+<div class="mobile-tabs">
+  <button class="mobile-tab active" onclick="switchTab('overview')">Overview</button>
+  <button class="mobile-tab" onclick="switchTab('basics')">1 · AI basics</button>
+  <button class="mobile-tab" onclick="switchTab('agents')">2 · Agents</button>
+  <button class="mobile-tab" onclick="switchTab('orch')">3 · Orchestration</button>
+  <button class="mobile-tab" onclick="switchTab('mvp')">4 · MVP</button>
+</div>
+
+<div class="main">
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-label">Navigation</div>
+    <button class="nav-btn active" data-color="teal" onclick="switchTab('overview')">
+      <span class="nav-dot"></span> Overview map
+    </button>
+    <div class="sidebar-label" style="margin-top:8px;">Levels</div>
+    <button class="nav-btn" data-color="blue" onclick="switchTab('basics')">
+      <span class="nav-dot"></span> 1 · AI basics
+    </button>
+    <button class="nav-btn" data-color="purple" onclick="switchTab('agents')">
+      <span class="nav-dot"></span> 2 · AI agents
+    </button>
+    <button class="nav-btn" data-color="amber" onclick="switchTab('orch')">
+      <span class="nav-dot"></span> 3 · Orchestration
+    </button>
+    <button class="nav-btn" data-color="coral" onclick="switchTab('mvp')">
+      <span class="nav-dot"></span> 4 · Procurement MVP
+    </button>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- ===== OVERVIEW ===== -->
+    <div class="section active" id="tab-overview">
+      <div class="section-title">AI Roadmap for Procurement</div>
+      <div class="section-desc">A step-by-step introduction to AI — from basic assistants to a fully automated procurement workflow. Click any level to explore in detail.</div>
+
+      <div class="ov-row lv1" onclick="switchTab('basics')">
+        <div class="ov-num">1</div>
+        <div class="ov-body">
+          <div class="ov-title">AI basics — your smart assistant</div>
+          <div class="ov-desc">AI that reads, writes, summarises, and answers. Available today, no integration needed. Think: a super-knowledgeable colleague who never sleeps.</div>
+        </div>
+        <div class="ov-tag">Claude · ChatGPT · Gemini</div>
+      </div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv2" onclick="switchTab('agents')">
+        <div class="ov-num">2</div>
+        <div class="ov-body">
+          <div class="ov-title">AI agents — AI that gets things done</div>
+          <div class="ov-desc">Receives ONE goal, plans its own steps, uses tools, checks its work, and delivers a finished result. Goes beyond answering — it actually does.</div>
+        </div>
+        <div class="ov-tag">Agentic AI</div>
+      </div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv3" onclick="switchTab('orch')">
+        <div class="ov-num">3</div>
+        <div class="ov-body">
+          <div class="ov-title">Orchestration — AI team working in parallel</div>
+          <div class="ov-desc">Multiple specialised agents coordinated by a supervisor. One researches vendors, one drafts PO, one checks compliance — simultaneously. Human approves at the gate.</div>
+        </div>
+        <div class="ov-tag">Multi-agent</div>
+      </div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv4" onclick="switchTab('mvp')">
+        <div class="ov-num">4</div>
+        <div class="ov-body">
+          <div class="ov-title">Procurement MVP — build it in 4 months</div>
+          <div class="ov-desc">PR chatbot → SOCO matching → sourcing automation → PO flip → expediting. Full Coupa + S/4 integration. AI handles 80%, human controls 20%.</div>
+        </div>
+        <div class="ov-tag">Priority build</div>
+      </div>
+    </div>
+
+    <!-- ===== BASICS ===== -->
+    <div class="section" id="tab-basics">
+      <div class="section-title">Level 1 · AI Basics</div>
+      <div class="section-desc">What AI is, what it can do today, and which tools to consider — all in plain English, no jargon.</div>
+
+      <div class="sec-label">What is AI?</div>
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">🧠</span><div><div class="card-title">What AI actually is</div><div class="card-sub">Plain English</div></div></div>
+          <div class="card-body"><p>AI is software that understands language — it reads your question, understands what you mean, and gives you a useful answer. It has been trained on billions of documents, so it knows a lot.</p><p>Think of it as a super-knowledgeable colleague who reads everything, forgets nothing, and is available 24/7.</p></div>
+        </div>
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">⚡</span><div><div class="card-title">What it can do today</div><div class="card-sub">No integration needed</div></div></div>
+          <div class="card-body"><p>Draft emails, summarise long documents, translate languages, compare options, explain complex policies, write reports, review contracts for red flags, answer policy questions instantly.</p><p>You can start using this today — paste text, ask a question, get an answer.</p></div>
+        </div>
+      </div>
+
+      <div class="sec-label">AI tools to consider</div>
+      <div class="tool-grid">
+        <div class="tool-card">
+          <div class="tool-name">Claude</div><div class="tool-badge">by Anthropic</div>
+          <div class="bubble-wrap">
+            <div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Review this vendor contract and flag any unusual payment terms</div></div>
+            <div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Found 3 issues: (1) Net-90 terms — industry standard is Net-30. (2) Auto-renewal with no price cap. (3) Liability clause at 1× invoice value. Recommend negotiating items 1 and 2.</div></div>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:8px;">Strong on: documents, contracts, agents, reasoning</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-name">ChatGPT</div><div class="tool-badge">by OpenAI</div>
+          <div class="bubble-wrap">
+            <div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Compare these 3 vendor proposals and score them</div></div>
+            <div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Vendor A: 82/100 — best price, slower delivery. Vendor B: 78/100 — fastest, premium cost. Vendor C: 71/100 — weakest SLA. Recommend Vendor A if timeline allows.</div></div>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:8px;">Strong on: widely known, general tasks, plugins</p>
+        </div>
+        <div class="tool-card">
+          <div class="tool-name">Gemini</div><div class="tool-badge">by Google</div>
+          <div class="bubble-wrap">
+            <div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Summarise this report and put it in my Google Slides</div></div>
+            <div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Done — 5-slide deck created in your Drive: executive summary, 3 key findings, recommendation. Link sent to your email.</div></div>
+          </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:8px;">Strong on: Google Workspace integration, search</p>
+        </div>
+      </div>
+
+      <div class="sec-label">Procurement use cases</div>
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📋</span><div><div class="card-title">Contract review</div><div class="card-sub">Red flag detection</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Review this 60-page vendor contract for compliance. Flag anything unusual.</div></div><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Found 4 issues: (1) Net-90 — policy requires Net-30. (2) No SLA penalty. (3) Auto-renewal with 5% escalation. (4) Liability cap below minimum. All other 47 clauses compliant.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">⚖️</span><div><div class="card-title">Proposal comparison</div><div class="card-sub">Score and rank automatically</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Compare 3 vendor proposals on price, delivery, warranty, and local support.</div></div><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Vendor A: 84/100 — best price ($42k), 3yr warranty, Jakarta support. Vendor B: 79/100 — 4yr warranty, 18% pricier. Vendor C: 61/100 — no local support. Recommend Vendor A.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">🚨</span><div><div class="card-title">Emergency PO drafting</div><div class="card-sub">From scratch in seconds</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">Emergency PO for 50 safety helmets from PT Pelindung Jaya, needed by Friday.</div></div><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Draft PO created: PO-2025-EMG-0042, delivery March 28. Unit price $18.50, total $925. Ready to submit for approval.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📖</span><div><div class="card-title">Policy Q&A</div><div class="card-sub">Instant answers</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble you"><span class="bubble-label">YOU</span><div class="bubble-text">What's our approval limit for direct purchases without going to tender?</div></div><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Per Policy v2.4 (Section 5.3): direct purchase allowed up to IDR 50M. Above that, 3 quotes required. Above IDR 500M, formal tender mandatory.</div></div></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== AGENTS ===== -->
+    <div class="section" id="tab-agents">
+      <div class="section-title">Level 2 · AI Agents</div>
+      <div class="section-desc">An AI agent receives ONE goal and handles everything — planning, tool use, self-checking, and delivery — without step-by-step instructions.</div>
+
+      <div class="card" style="margin-bottom:20px;" onclick="toggleCard(this)">
+        <div class="card-head"><span class="card-icon">🤖</span><div><div class="card-title">The core idea</div><div class="card-sub">Beyond question & answer</div></div></div>
+        <div class="card-body"><p>Regular AI = answers your question.<br>AI Agent = receives ONE goal, plans all steps itself, uses tools (search, read files, write, call systems), checks its own work, delivers a finished result.</p><div class="flow"><span class="step-pill">1 goal in</span><span class="step-arr">→</span><span class="step-pill">Plans steps</span><span class="step-arr">→</span><span class="step-pill">Uses tools</span><span class="step-arr">→</span><span class="step-pill">Checks work</span><span class="step-arr">→</span><span class="step-pill">Result out</span></div></div>
+      </div>
+
+      <div class="sec-label">Smart procurement agents — click to expand</div>
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📄</span><div><div class="card-title">Contract matching for PRs</div><div class="card-sub">Which contract covers this PR?</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text"><strong style="color:var(--teal-l);">Best match:</strong> KTR-2024-0088 with PT Baja Mulia — covers welding materials, valid Dec 2025, IDR 180M headroom. This PR (IDR 22M) is well within limit.<br><br><strong style="color:var(--amber-l);">Alt:</strong> KTR-2024-0045 expires in 45 days — not recommended for repeat orders.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">🔗</span><div><div class="card-title">PR bundling</div><div class="card-sub">Which PRs can be grouped?</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Bundle A: 7 MRO PRs (IDR 340M) — same category, all due end April. Est. savings: 12-15%.<br>Bundle B: 4 IT peripheral PRs (IDR 89M) — one RFQ, 3 vendors available.<br>⚠️ PR-0418 (lab chemicals): do NOT bundle.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">⏰</span><div><div class="card-title">Contract expiry monitoring</div><div class="card-sub">Proactive alerts</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">🔴 Critical: KTR-2024-0033 expires April 20. 6 open PRs depend on this.<br>🟡 Warning: KTR-2024-0051 expires May 15. No renewal started.<br>🟢 Upcoming: 3 contracts — safe timeline.</div></div></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">💰</span><div><div class="card-title">Price benchmarking</div><div class="card-sub">Is this quote fair?</div></div></div><div class="card-body"><div class="bubble-wrap"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Quote: IDR 45,000/unit. Historical avg: IDR 38,500. Market range: IDR 36,000–41,000.<br><br>Quote is 10-17% above market. <strong style="color:var(--teal-l);">Suggested counteroffer: IDR 39,000/unit.</strong></div></div></div></div></div>
+      </div>
+    </div>
+
+    <!-- ===== ORCHESTRATION ===== -->
+    <div class="section" id="tab-orch">
+      <div class="section-title">Level 3 · Orchestration</div>
+      <div class="section-desc">Multiple specialised agents working in parallel, coordinated by a supervisor agent. Humans stay in control at the approval gate.</div>
+
+      <div class="sec-label">How it works</div>
+      <div class="orch-box-wrap">
+        <div class="orch-row"><div class="orch-box main" style="min-width:200px;">🎯 Orchestrator agent<br><span style="font-size:10px;opacity:.8;">Receives goal, assigns tasks, coordinates</span></div></div>
+        <div class="orch-arr">↙ &nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp; ↘</div>
+        <div class="orch-row">
+          <div class="orch-box">🔍 Research</div>
+          <div class="orch-box">✍️ Drafting</div>
+          <div class="orch-box">✅ Compliance</div>
+          <div class="orch-box">📧 Notifier</div>
+        </div>
+        <div class="orch-arr">↘ &nbsp;&nbsp;&nbsp; ↓ &nbsp;&nbsp;&nbsp; ↙</div>
+        <div class="orch-row"><div class="orch-box human" style="min-width:200px;">👤 Human approval gate<br><span style="font-size:10px;opacity:.8;">You decide — AI just prepares everything</span></div></div>
+        <div class="orch-arr">↓</div>
+        <div class="orch-row"><div class="orch-box done">📦 Finished result delivered</div></div>
+      </div>
+
+      <div class="sec-label">Procurement examples</div>
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">🪑</span><div><div class="card-title">"Order 50 office chairs"</div><div class="card-sub">Full sourcing event, automated</div></div></div>
+          <div class="card-body">
+            <div class="agent-mini-grid">
+              <div class="agent-mini"><div class="agent-mini-title">📋 PR agent</div><div class="agent-mini-desc">Validates specs, checks budget, creates formal PR</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">🔍 Vendor agent</div><div class="agent-mini-desc">Finds 5 qualified vendors, sends RFQ</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">⚖️ Scoring agent</div><div class="agent-mini-desc">Compares bids on price, delivery, warranty</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">📄 Draft agent</div><div class="agent-mini-desc">Prepares award recommendation + draft PO</div></div>
+            </div>
+            <p>You get one screen with ranked vendors and a pre-filled PO. Click Approve and it's done.</p>
+          </div>
+        </div>
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">🚨</span><div><div class="card-title">"10 laptops needed by Friday"</div><div class="card-sub">Emergency, full audit trail</div></div></div>
+          <div class="card-body">
+            <div class="flow"><span class="step-pill">Check active contracts</span><span class="step-arr">→</span><span class="step-pill">Found KTR-2024-0091</span><span class="step-arr">→</span><span class="step-pill">Draft PO in 2 mins</span><span class="step-arr">→</span><span class="step-pill">Emergency approval</span><span class="step-arr">→</span><span class="step-pill">Confirm to vendor</span></div>
+            <p>Full process in 8 minutes with complete audit trail — no shortcuts, no compliance gaps.</p>
+          </div>
+        </div>
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">💻</span><div><div class="card-title">Full IT hardware sourcing</div><div class="card-sub">Bundled PRs → award in hours</div></div></div>
+          <div class="card-body">
+            <div class="flow"><span class="step-pill">Bundle 6 laptop PRs</span><span class="step-arr">→</span><span class="step-pill">Create RFQ</span><span class="step-arr">→</span><span class="step-pill">Invite 4 vendors</span><span class="step-arr">→</span><span class="step-pill">Score bids</span><span class="step-arr">→</span><span class="step-pill">Award recommendation</span></div>
+            <div class="bubble-wrap" style="margin-top:10px;"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">Award recommendation: PT Teknologi Andal — IDR 312M for 85 laptops. Savings vs individual purchase: IDR 15,680,000 (4.8%). Delivery: 10 days. Ready for your approval.</div></div></div>
+          </div>
+        </div>
+        <div class="card" onclick="toggleCard(this)">
+          <div class="card-head"><span class="card-icon">📊</span><div><div class="card-title">Monthly procurement health report</div><div class="card-sub">Board-ready PDF, automated</div></div></div>
+          <div class="card-body">
+            <div class="agent-mini-grid">
+              <div class="agent-mini"><div class="agent-mini-title">📥 Data agent</div><div class="agent-mini-desc">Pulls from Coupa, S/4, contract system</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">📈 Analytics agent</div><div class="agent-mini-desc">Calculates KPIs, savings, cycle times</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">✍️ Writing agent</div><div class="agent-mini-desc">Writes executive summary in plain English</div></div>
+              <div class="agent-mini"><div class="agent-mini-title">📋 Review agent</div><div class="agent-mini-desc">Checks for anomalies, flags for human review</div></div>
+            </div>
+            <div class="bubble-wrap" style="margin-top:10px;"><div class="bubble ai"><span class="bubble-label">AI</span><div class="bubble-text">⚠️ Flagged: Duplicate payment detected — vendor PT ABC received 2 payments for PO-2025-0331. Requires finance review before finalising report.</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== MVP ===== -->
+    <div class="section" id="tab-mvp">
+      <div class="section-title">Level 4 · Procurement MVP</div>
+      <div class="section-desc">A concrete build plan — 5 AI agents, 10 process steps, full Coupa + S/4 integration. AI handles 80%, humans control the 20% that matters.</div>
+
+      <div class="subtabs">
+        <button class="subtab active" onclick="switchMvp('steps')">📋 Process steps</button>
+        <button class="subtab" onclick="switchMvp('agentlist')">🤖 Agents to build</button>
+        <button class="subtab" onclick="switchMvp('workflow')">⚡ Live workflow</button>
+      </div>
+
+      <!-- PROCESS STEPS — HORIZONTAL -->
+      <div class="subsection active" id="mvpsub-steps">
+
+        <div class="mvp-legend">
+          <div class="mvp-leg"><div class="mvp-leg-dot" style="background:var(--teal-d);border-color:var(--teal);"></div>AI handled</div>
+          <div class="mvp-leg"><div class="mvp-leg-dot" style="background:var(--purple-d);border-color:var(--purple);"></div>Human required</div>
+          <div class="mvp-leg"><div class="mvp-leg-dot" style="background:var(--amber-d);border-color:var(--amber);"></div>Top priority</div>
+          <span class="mvp-hint">Click any step for details →</span>
+        </div>
+
+        <!-- PR Creation phase -->
+        <div class="phase-block">
+          <div class="phase-hdr"><span class="phase-pill ph-pr">PR Creation</span><div class="phase-line"></div></div>
+          <div class="h-rail">
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="1" onclick="showHStep(1)"><div class="h-num nn-ai">1</div><div class="h-title">PR creation chatbot</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="2" onclick="showHStep(2)"><div class="h-num nn-ai">2</div><div class="h-title">SOCO filter / OA match</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★★★</span></div></div>
+          </div>
+        </div>
+        <div id="hd-pr" class="h-detail nt-ai"></div>
+
+        <!-- Sourcing phase -->
+        <div class="phase-block">
+          <div class="phase-hdr"><span class="phase-pill ph-src">Sourcing</span><div class="phase-line"></div></div>
+          <div class="h-rail">
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="3" onclick="showHStep(3)"><div class="h-num nn-ai">3</div><div class="h-title">Sourcing event creation</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="4" onclick="showHStep(4)"><div class="h-num nn-ai">4</div><div class="h-title">Supplier discovery</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="5" onclick="showHStep(5)"><div class="h-num nn-ai">5</div><div class="h-title">RFQ dispatch & follow-up</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="6" onclick="showHStep(6)"><div class="h-num nn-ai">6</div><div class="h-title">Bid analysis & scoring</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-human" data-n="7" onclick="showHStep(7)"><div class="h-num nn-human">7</div><div class="h-title">Award & nego strategy</div><span class="h-badge hb-human">Human</span><span class="h-stars hs-hu">★★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-human" data-n="8" onclick="showHStep(8)"><div class="h-num nn-human">8</div><div class="h-title">Approval workflow</div><span class="h-badge hb-human">Human</span><span class="h-stars hs-hu">★★★</span></div></div>
+          </div>
+        </div>
+        <div id="hd-src" class="h-detail nt-ai"></div>
+
+        <!-- PO & Expediting phase -->
+        <div class="phase-block">
+          <div class="phase-hdr"><span class="phase-pill ph-po">PO & Expediting</span><div class="phase-line"></div></div>
+          <div class="h-rail">
+            <div class="h-node-wrap"><div class="h-node nt-gold" data-n="9" onclick="showHStep(9)"><div class="h-num nn-gold">9</div><div class="h-title">Flip to PO Coupa→S/4→POM</div><span class="h-badge hb-gold">AI · Priority</span><span class="h-stars">★★★★★</span></div></div>
+            <div class="h-arr">→</div>
+            <div class="h-node-wrap"><div class="h-node nt-ai" data-n="10" onclick="showHStep(10)"><div class="h-num nn-ai">10</div><div class="h-title">Expediting & delivery monitor</div><span class="h-badge hb-ai">AI</span><span class="h-stars">★★★★</span></div></div>
+          </div>
+        </div>
+        <div id="hd-po" class="h-detail nt-ai"></div>
+
+        <div class="sec-label" style="margin-top:24px;">Expected outcomes</div>
+        <div class="outcome-grid">
+          <div class="outcome-box"><div class="outcome-num">-70%</div><div class="outcome-label">Manual data entry time</div></div>
+          <div class="outcome-box"><div class="outcome-num">-40%</div><div class="outcome-label">Sourcing cycle time</div></div>
+          <div class="outcome-box"><div class="outcome-num">+30%</div><div class="outcome-label">Contract utilisation</div></div>
+          <div class="outcome-box"><div class="outcome-num">0</div><div class="outcome-label">Missed contract expirations</div></div>
+          <div class="outcome-box"><div class="outcome-num">0</div><div class="outcome-label">Lost approval emails</div></div>
+        </div>
+      </div>
+
+      <!-- AGENTS TO BUILD -->
+      <div class="subsection" id="mvpsub-agentlist">
+        <div style="font-size:12px;color:var(--text2);margin-bottom:16px;">5 agents to build — click each for full details including integrations, day-to-day usage, and build estimates.</div>
+        <div class="agent-card-grid">
+          <div class="agent-card ac-teal" onclick="toggleAgent(this)">
+            <div class="agent-card-header"><span class="agent-card-icon">💬</span><div><div class="agent-card-name">PR Intake Agent</div><div class="agent-card-role">Covers steps 1 & 2</div></div></div>
+            <div class="agent-divider"></div>
+            <div class="agent-card-body">Converts natural language requests into structured PRs in Coupa. Validates budget and policy, then immediately cross-checks against active contracts and open POs to avoid unnecessary sourcing.
+              <div class="agent-pill-row"><span class="agent-pill">Coupa API</span><span class="agent-pill">NLP parsing</span><span class="agent-pill">Contract DB</span><span class="agent-pill">Budget check</span></div>
+            </div>
+            <div class="agent-expand">
+              <p><strong>Day-to-day:</strong> Requestor types "200 welding rods for Cikarang by April 30." Agent creates PR in Coupa, checks if KTR-2024-0088 already covers this (it does), and flags it as SOCO-matched — no sourcing event needed. Saves ~2 hours of manual work per PR.</p>
+              <p><strong>Complexity:</strong> Medium &nbsp;·&nbsp; Est. build: 3–4 weeks</p>
+            </div>
+          </div>
+          <div class="agent-card ac-blue" onclick="toggleAgent(this)">
+            <div class="agent-card-header"><span class="agent-card-icon">🔍</span><div><div class="agent-card-name">Sourcing Event Agent</div><div class="agent-card-role">Covers steps 3, 4 & 5</div></div></div>
+            <div class="agent-divider"></div>
+            <div class="agent-card-body">Bundles PRs into sourcing events, discovers qualified vendors, creates RFQ in Coupa, sends invitations, and auto-chases non-responders on a schedule.
+              <div class="agent-pill-row"><span class="agent-pill">Coupa RFQ API</span><span class="agent-pill">Vendor DB</span><span class="agent-pill">Email automation</span><span class="agent-pill">Scheduler</span></div>
+            </div>
+            <div class="agent-expand">
+              <p><strong>Day-to-day:</strong> Every Monday morning, agent scans all pending PRs, groups bundleable ones, creates sourcing events in Coupa, shortlists vendors, and dispatches RFQs — all before the buyer arrives at the office.</p>
+              <p><strong>Complexity:</strong> Medium-High &nbsp;·&nbsp; Est. build: 4–5 weeks</p>
+            </div>
+          </div>
+          <div class="agent-card ac-purple" onclick="toggleAgent(this)">
+            <div class="agent-card-header"><span class="agent-card-icon">⚖️</span><div><div class="agent-card-name">Bid Analysis Agent</div><div class="agent-card-role">Covers steps 6 & 7</div></div></div>
+            <div class="agent-divider"></div>
+            <div class="agent-card-body">Reads all submitted bids, scores on a weighted matrix, generates award recommendation with justification, and prepares negotiation brief for the buyer.
+              <div class="agent-pill-row"><span class="agent-pill">Bid parsing</span><span class="agent-pill">Scoring engine</span><span class="agent-pill">Historical data</span><span class="agent-pill">Report gen</span></div>
+            </div>
+            <div class="agent-expand">
+              <p><strong>Day-to-day:</strong> When bid deadline closes, agent reads all submissions, scores each on price/delivery/compliance/history, flags anomalies (suspiciously low bids, missing docs), and delivers a ready-to-present award recommendation within minutes.</p>
+              <p><strong>Complexity:</strong> Medium &nbsp;·&nbsp; Est. build: 3–4 weeks</p>
+            </div>
+          </div>
+          <div class="agent-card ac-amber" onclick="toggleAgent(this)">
+            <div class="agent-card-header"><span class="agent-card-icon">🔄</span><div><div class="agent-card-name">PO Flip Agent</div><div class="agent-card-role">Covers step 9 — highest priority</div></div></div>
+            <div class="agent-divider"></div>
+            <div class="agent-card-body">Upon approval in Coupa, automatically triggers PO creation in S/4HANA, maps all master data fields, routes through POM approval, and sends confirmation to vendor.
+              <div class="agent-pill-row"><span class="agent-pill">Coupa webhook</span><span class="agent-pill">S/4 BAPI</span><span class="agent-pill">POM workflow</span><span class="agent-pill">Vendor email</span></div>
+            </div>
+            <div class="agent-expand">
+              <p><strong>Day-to-day:</strong> Buyer clicks "Approve" in Coupa. Within 3 minutes: PO is in S/4, POM workflow triggered, vendor receives PO confirmation. Zero manual re-entry. Currently this step takes 1–2 days manually — highest single ROI automation.</p>
+              <p><strong>Complexity:</strong> High (S/4 integration) &nbsp;·&nbsp; Est. build: 5–6 weeks</p>
+            </div>
+          </div>
+          <div class="agent-card ac-coral" onclick="toggleAgent(this)">
+            <div class="agent-card-header"><span class="agent-card-icon">🚚</span><div><div class="agent-card-name">Expediting Agent</div><div class="agent-card-role">Covers step 10</div></div></div>
+            <div class="agent-divider"></div>
+            <div class="agent-card-body">Continuously monitors open POs for delivery risk. Reads vendor emails for delay signals, updates S/4 delivery dates, escalates to POA, and drafts chaser emails automatically.
+              <div class="agent-pill-row"><span class="agent-pill">S/4 monitor</span><span class="agent-pill">Email reader</span><span class="agent-pill">Alert engine</span><span class="agent-pill">Auto-draft</span></div>
+            </div>
+            <div class="agent-expand">
+              <p><strong>Day-to-day:</strong> Every morning, agent scans all open POs with delivery due within 14 days. Cross-checks confirmed dates vs actual vendor responses. Any PO at risk gets a chaser email drafted and POA notified — before anyone has to ask.</p>
+              <p><strong>Complexity:</strong> Medium &nbsp;·&nbsp; Est. build: 3–4 weeks</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="build-seq">
+          <div class="sec-label">Recommended build sequence</div>
+          <div class="flow" style="margin-bottom:12px;">
+            <span class="step-pill" style="border-color:var(--amber);color:var(--amber-l);">Month 1 · PO Flip Agent</span>
+            <span class="step-arr">→</span>
+            <span class="step-pill" style="border-color:var(--teal);color:var(--teal-l);">Month 2 · PR Intake Agent</span>
+            <span class="step-arr">→</span>
+            <span class="step-pill" style="border-color:var(--blue);color:var(--blue-l);">Month 3 · Sourcing Agent</span>
+            <span class="step-arr">→</span>
+            <span class="step-pill" style="border-color:var(--purple);color:var(--purple-l);">Month 4 · Bid Analysis + Expediting</span>
+          </div>
+          <p style="font-size:12px;color:var(--text2);line-height:1.6;">Start with PO Flip — highest pain point, fastest ROI, no user behaviour change needed. PR Intake changes how users raise requests, so needs more change management. Sourcing and Bid agents add sophistication last.</p>
+        </div>
+      </div>
+
+      <!-- LIVE WORKFLOW -->
+      <div class="subsection" id="mvpsub-workflow">
+        <div style="font-size:12px;color:var(--text2);margin-bottom:20px;">End-to-end flow once all 5 agents are live. From plain-English request to vendor-confirmed PO — with humans touching only 2 steps.</div>
+
+        <div class="wf-phase">
+          <div class="wf-phase-title">Phase 1 — Request</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 1</div><div class="wf-step-title">Requestor types in plain English</div><span class="wf-step-agent teal">PR Intake Agent</span><div class="wf-step-desc">"I need 200 welding rods for Cikarang by April 30" → PR auto-created in Coupa with all required fields</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 2</div><div class="wf-step-title">SOCO check — is there a contract?</div><span class="wf-step-agent teal">PR Intake Agent</span><div class="wf-step-desc">Contract found → skip to PO Flip. No contract → route to sourcing. Saves 30-40% of PRs from unnecessary tender.</div></div></div>
+          </div>
+        </div>
+        <div class="wf-connector">↓ (if no contract found)</div>
+
+        <div class="wf-phase">
+          <div class="wf-phase-title">Phase 2 — Sourcing</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 3</div><div class="wf-step-title">Bundle PRs + create RFQ event</div><span class="wf-step-agent blue">Sourcing Agent</span><div class="wf-step-desc">Groups similar PRs, selects top vendors, creates RFQ in Coupa, sends invitations automatically</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 4</div><div class="wf-step-title">Auto follow-up until bids arrive</div><span class="wf-step-agent blue">Sourcing Agent</span><div class="wf-step-desc">Day 3 & 5 reminders sent automatically. Non-responding vendors escalated to buyer on day 7.</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 5</div><div class="wf-step-title">Score all bids + recommend award</div><span class="wf-step-agent purple">Bid Analysis Agent</span><div class="wf-step-desc">All bids scored on weighted matrix. Award recommendation + negotiation brief delivered to buyer within minutes of deadline.</div></div></div>
+          </div>
+        </div>
+        <div class="wf-connector">↓</div>
+
+        <div class="wf-phase">
+          <div class="wf-phase-title">Phase 3 — Human approval gate</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 6</div><div class="wf-step-title">Buyer reviews & negotiates</div><span class="wf-step-agent human">👤 Human</span><div class="wf-step-desc">Buyer gets full scoring summary, negotiation brief, and risk flags. Conducts negotiation armed with AI-prepared strategy.</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 7</div><div class="wf-step-title">Manager approves in Coupa</div><span class="wf-step-agent human">👤 Human</span><div class="wf-step-desc">One-click approve/reject. All supporting data already attached. No back-and-forth emails needed.</div></div></div>
+          </div>
+        </div>
+        <div class="wf-connector">↓ (upon approval)</div>
+
+        <div class="wf-phase">
+          <div class="wf-phase-title">Phase 4 — PO & Delivery</div>
+          <div class="wf-steps">
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 8</div><div class="wf-step-title">PO auto-created in S/4</div><span class="wf-step-agent amber">PO Flip Agent</span><div class="wf-step-desc">Within 3 minutes of approval: PO in S/4, POM workflow triggered, vendor receives confirmation. Zero manual entry.</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 9</div><div class="wf-step-title">Delivery monitored until goods arrive</div><span class="wf-step-agent coral">Expediting Agent</span><div class="wf-step-desc">Agent watches delivery dates daily. Any risk → chaser email drafted, POA notified before anyone has to ask.</div></div></div>
+            <div class="wf-arrow">→</div>
+            <div class="wf-step"><div class="wf-step-inner"><div class="wf-step-num">Step 10</div><div class="wf-step-title">Goods received — PO closed</div><span class="wf-step-agent teal">PR Intake Agent</span><div class="wf-step-desc">GR confirmed in S/4. PO status updated. Contract spend headroom adjusted. Ready for next cycle.</div></div></div>
+          </div>
+        </div>
+
+        <div class="wf-outcome">
+          <div class="wf-outcome-title">📊 What changes for your team</div>
+          <div class="wf-outcome-grid">
+            <div class="wf-outcome-item"><div class="wf-outcome-num">~3 min</div><div class="wf-outcome-label">PR to PO flip (was 1–2 days)</div></div>
+            <div class="wf-outcome-item"><div class="wf-outcome-num">-40%</div><div class="wf-outcome-label">Sourcing cycle time</div></div>
+            <div class="wf-outcome-item"><div class="wf-outcome-num">-30%</div><div class="wf-outcome-label">Unnecessary tender events</div></div>
+            <div class="wf-outcome-item"><div class="wf-outcome-num">0</div><div class="wf-outcome-label">Missed contract expirations</div></div>
+            <div class="wf-outcome-item"><div class="wf-outcome-num">80%</div><div class="wf-outcome-label">Steps handled by AI</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end sections -->
+
+  </main>
+</div>
+
+<footer class="footer">AI for Procurement Roadmap &nbsp;·&nbsp; Built for management presentation &nbsp;·&nbsp; Levels 1 → 4</footer>
+
+<script>
+const hStepData = {
+  1:{t:"PR creation chatbot",s:"Conversational — no forms needed",b:"User types: \"I need 50 safety helmets for Cikarang site by end of April.\" Agent extracts: item, quantity, site, delivery date, cost centre. Creates structured PR in Coupa automatically. Validates against budget and policy before submitting.",type:"nt-ai",ph:"pr"},
+  2:{t:"SOCO filter — OA / contract matching",s:"Auto-match before going to tender",b:"Agent cross-checks against: (1) open POs with available quantity, (2) active framework contracts with spend headroom. Flags PRs that don't need sourcing — reducing unnecessary tender events by ~30-40%. This alone saves significant sourcing effort every month.",type:"nt-ai",ph:"pr"},
+  3:{t:"Sourcing event creation",s:"Auto-create RFQ / RFP in Coupa",b:"Bundles eligible PRs into one sourcing event. Populates all fields: line items, specs, evaluation criteria, deadline. Applies the correct sourcing template based on category and value. Ready for buyer to review in 2 minutes instead of 2 hours.",type:"nt-ai",ph:"src"},
+  4:{t:"Supplier discovery",s:"Shortlist qualified vendors automatically",b:"Filters by: category match, qualification status, geographic location, past performance score, blacklist check. Presents a ranked shortlist of 3-5 vendors with justification. Buyer reviews and confirms before RFQ is sent.",type:"nt-ai",ph:"src"},
+  5:{t:"RFQ dispatch & follow-up",s:"Send and auto-chase non-responders",b:"Sends personalised RFQ emails via Coupa. Tracks response status in real time. Automatically sends reminder emails at day 3 and day 5. Escalates to buyer on day 7. All tracked with full audit log.",type:"nt-ai",ph:"src"},
+  6:{t:"Bid analysis & scoring",s:"Score and rank all vendor bids",b:"Reads all submitted bids. Scores each on: price (40%), delivery time (20%), technical compliance (25%), vendor performance history (15%). Generates comparison matrix and award recommendation with justification. Flags anomalies such as unusually low bids and missing documents.",type:"nt-ai",ph:"src"},
+  7:{t:"Award & negotiation strategy",s:"AI prepares — human negotiates",b:"Agent prepares: BATNA analysis, recommended opening position, concession ladder, key leverage points (volume, payment terms, multi-year deal). Buyer enters negotiation fully prepared. Post-negotiation: agent updates final terms and prepares for approval.",type:"nt-human",ph:"src"},
+  8:{t:"Approval workflow",s:"Coupa approval routing — human gate",b:"AI-prepared award package routes through standard Coupa approval workflow. All supporting analysis attached. Approver receives: scoring summary, recommendation rationale, risk flags, and one-click approve/reject. AI never auto-approves — human always decides.",type:"nt-human",ph:"src"},
+  9:{t:"Flip to PO — Coupa → S/4 → POM",s:"Highest priority automation in the MVP",b:"Upon approval: agent triggers PO creation in S/4HANA via API. Maps all fields: vendor master, GL account, cost centre, plant, delivery address. Triggers POM approval workflow. Sends PO confirmation to vendor. Full end-to-end in minutes, not days. This is the single highest-ROI step currently taking 1–2 days manually.",type:"nt-gold",ph:"po"},
+  10:{t:"Expediting & delivery monitoring",s:"AI monitors deliveries, reads vendor emails",b:"Agent continuously monitors: confirmed delivery dates vs actual, vendor email inbox for delay notifications, goods receipt status in S/4. Auto-updates expected delivery. Escalates to POA when delivery is at risk. Drafts chaser emails to vendors. Zero missed deliveries due to information gaps.",type:"nt-ai",ph:"po"}
+};
+let hCur = null;
+function showHStep(n) {
+  const d = hStepData[n];
+  const panelId = 'hd-' + d.ph;
+  const panel = document.getElementById(panelId);
+  const nnC = d.type === 'nt-human' ? 'nn-human' : d.type === 'nt-gold' ? 'nn-gold' : 'nn-ai';
+  const bdgC = d.type === 'nt-human' ? 'hb-human' : d.type === 'nt-gold' ? 'hb-gold' : 'hb-ai';
+  const bdgT = d.type === 'nt-human' ? 'Human required' : d.type === 'nt-gold' ? 'AI · Top priority' : 'AI handled';
+  if (hCur === n) {
+    panel.classList.remove('open');
+    document.querySelector('[data-n="'+n+'"]').classList.remove('sel');
+    hCur = null; return;
+  }
+  ['hd-pr','hd-src','hd-po'].forEach(id => document.getElementById(id).classList.remove('open'));
+  document.querySelectorAll('.h-node').forEach(el => el.classList.remove('sel'));
+  document.querySelector('[data-n="'+n+'"]').classList.add('sel');
+  panel.className = 'h-detail ' + d.type;
+  panel.innerHTML = '<div class="hd-hdr"><div class="hd-num '+nnC+'">'+n+'</div><div><div class="hd-title">'+d.t+'</div><div class="hd-sub">'+d.s+' &nbsp;<span class="h-badge '+bdgC+'" style="font-size:9px;">'+bdgT+'</span></div></div><div class="hd-close" onclick="closeHStep('+n+')">✕</div></div><div class="hd-body">'+d.b+'</div>';
+  panel.classList.add('open');
+  hCur = n;
+}
+function closeHStep(n) {
+  const d = hStepData[n];
+  document.getElementById('hd-' + d.ph).classList.remove('open');
+  document.querySelector('[data-n="'+n+'"]').classList.remove('sel');
+  hCur = null;
+}
+
+function switchTab(id) {
+  const ids = ['overview','basics','agents','orch','mvp'];
+  document.querySelectorAll('.nav-btn').forEach((b,i) => b.classList.toggle('active', ids[i] === id));
+  document.querySelectorAll('.mobile-tab').forEach((b,i) => b.classList.toggle('active', ids[i] === id));
+  document.querySelectorAll('.section').forEach(s => s.classList.toggle('active', s.id === 'tab-' + id));
+}
+function switchMvp(id) {
+  const ids = ['steps','agentlist','workflow'];
+  document.querySelectorAll('.subtab').forEach((b,i) => b.classList.toggle('active', ids[i] === id));
+  document.querySelectorAll('.subsection').forEach(s => s.classList.toggle('active', s.id === 'mvpsub-' + id));
+}
+function toggleCard(el) { el.classList.toggle('open'); }
+function toggleMvp(el) { el.classList.toggle('open'); }
+function toggleAgent(el) { el.classList.toggle('open'); }
+</script>
+</body>
+</html>
