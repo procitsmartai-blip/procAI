@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI for Procurement — Interactive Roadmap</title>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#0e0f11;--bg2:#16181c;--bg3:#1e2026;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);--text:#e8e9ec;--text2:#9499a8;--text3:#5a6070;--teal:#1D9E75;--teal-l:#5DCAA5;--teal-d:#0a2820;--teal-b:#0F6E56;--blue:#378ADD;--blue-l:#85B7EB;--blue-d:#0d1f35;--blue-b:#185FA5;--purple:#7F77DD;--purple-l:#AFA9EC;--purple-d:#1a1530;--purple-b:#534AB7;--amber:#EF9F27;--amber-l:#FAC775;--amber-d:#2a1a08;--amber-b:#854F0B;--coral:#D85A30;--coral-l:#F0997B;--coral-d:#2d1008;--red:#E24B4A}
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;font-size:15px}
+  .header{padding:24px 32px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;background:var(--bg);position:sticky;top:0;z-index:100}
+  .header-badge{width:38px;height:38px;border-radius:10px;background:var(--teal-d);border:1px solid var(--teal);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+  .header-title{font-size:18px;font-weight:900;color:var(--text)}
+  .header-sub{font-size:13px;color:var(--text3);margin-top:1px}
+  .main{display:flex;min-height:calc(100vh - 78px)}
+  .sidebar{width:230px;min-width:230px;padding:20px 14px;border-right:1px solid var(--border);display:flex;flex-direction:column;gap:4px;position:sticky;top:78px;height:calc(100vh - 78px);overflow-y:auto}
+  .sidebar-label{font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);padding:4px 10px 8px;margin-top:4px}
+  .nav-btn{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;border:none;background:transparent;color:var(--text2);font-family:'Lato',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .18s;text-align:left;width:100%}
+  .nav-btn:hover{background:var(--bg3);color:var(--text)}.nav-btn.active{background:var(--bg3);color:var(--text)}
+  .nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;border:1.5px solid currentColor;opacity:.5}
+  .nav-btn.active .nav-dot{opacity:1}
+  .nav-btn[data-color="teal"].active .nav-dot,.nav-btn[data-color="teal"]:hover .nav-dot{background:var(--teal);border-color:var(--teal);opacity:1}
+  .nav-btn[data-color="blue"].active .nav-dot,.nav-btn[data-color="blue"]:hover .nav-dot{background:var(--blue);border-color:var(--blue);opacity:1}
+  .nav-btn[data-color="purple"].active .nav-dot,.nav-btn[data-color="purple"]:hover .nav-dot{background:var(--purple);border-color:var(--purple);opacity:1}
+  .nav-btn[data-color="amber"].active .nav-dot,.nav-btn[data-color="amber"]:hover .nav-dot{background:var(--amber);border-color:var(--amber);opacity:1}
+  .nav-btn[data-color="coral"].active .nav-dot,.nav-btn[data-color="coral"]:hover .nav-dot{background:var(--coral-l);border-color:var(--coral);opacity:1}
+  .content{flex:1;padding:28px 32px;max-width:1020px}
+  .section{display:none}.section.active{display:block;animation:fadeIn .2s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+  .section-title{font-size:24px;font-weight:900;color:var(--text);margin-bottom:6px}
+  .section-desc{font-size:15px;color:var(--text2);margin-bottom:24px;line-height:1.65}
+  .sec-label{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text3);margin-bottom:12px;margin-top:24px}
+  /* OVERVIEW */
+  .ov-row{display:flex;align-items:stretch;border-radius:14px;overflow:hidden;border:1.5px solid;margin-bottom:10px;cursor:pointer;transition:filter .18s}
+  .ov-row:hover{filter:brightness(1.1)}
+  .ov-num{width:58px;min-width:58px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:900;color:#fff}
+  .ov-body{flex:1;padding:15px 18px}
+  .ov-title{font-size:16px;font-weight:700;margin-bottom:3px}
+  .ov-desc{font-size:14px;line-height:1.55;opacity:.85}
+  .ov-tag{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;align-self:center;white-space:nowrap;margin:0 16px}
+  .ov-arrow{text-align:center;color:var(--text3);font-size:18px;margin-bottom:10px}
+  .ov-row.lv1{background:#1a3a4a;border-color:var(--blue)}.ov-row.lv1 .ov-num{background:var(--blue)}.ov-row.lv1 .ov-title{color:#B5D4F4}.ov-row.lv1 .ov-desc{color:#85B7EB}.ov-row.lv1 .ov-tag{background:var(--blue-b);color:#B5D4F4}
+  .ov-row.lv2{background:#2a1f4a;border-color:var(--purple)}.ov-row.lv2 .ov-num{background:var(--purple)}.ov-row.lv2 .ov-title{color:#CECBF6}.ov-row.lv2 .ov-desc{color:#AFA9EC}.ov-row.lv2 .ov-tag{background:var(--purple-b);color:#CECBF6}
+  .ov-row.lv3{background:#2d2010;border-color:var(--amber)}.ov-row.lv3 .ov-num{background:var(--amber)}.ov-row.lv3 .ov-title{color:#FAC775}.ov-row.lv3 .ov-desc{color:#FAC775;opacity:.75}.ov-row.lv3 .ov-tag{background:var(--amber-b);color:#FAC775}
+  .ov-row.lv4{background:#0d2e22;border-color:var(--teal)}.ov-row.lv4 .ov-num{background:var(--teal)}.ov-row.lv4 .ov-title{color:#9FE1CB}.ov-row.lv4 .ov-desc{color:#5DCAA5}.ov-row.lv4 .ov-tag{background:var(--teal-b);color:#9FE1CB}
+  /* COMPARISON TABLE */
+  .cmp-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:14px;overflow:hidden;margin-bottom:8px}
+  .cmp-table{width:100%;border-collapse:collapse}
+  .cmp-table th{padding:13px 16px;font-size:15px;font-weight:900;color:var(--text);background:var(--bg3);text-align:center;border-bottom:2px solid var(--border2)}
+  .cmp-table th:first-child{text-align:left;min-width:160px}
+  .cmp-table td{padding:12px 16px;font-size:14px;color:var(--text2);border-bottom:1px solid var(--border);text-align:center;vertical-align:middle}
+  .cmp-table td:first-child{text-align:left;font-weight:700;color:var(--text)}
+  .cmp-table tr:last-child td{border-bottom:none}
+  .cmp-table tr:hover td{background:var(--bg3)}
+  .rating{display:inline-flex;align-items:center;gap:4px;font-size:14px;font-weight:700;white-space:nowrap}
+  .r-best{color:#5DCAA5}.r-good{color:#85B7EB}.r-ok{color:#EF9F27}.r-no{color:#E24B4A}
+  /* TOOL CARDS */
+  .tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;margin-bottom:20px}
+  .tool-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:18px}
+  .tool-name{font-size:17px;font-weight:900;color:var(--text);margin-bottom:3px}
+  .tool-vendor{font-size:12px;padding:2px 9px;border-radius:8px;background:var(--bg3);color:var(--text3);margin-bottom:16px;display:inline-block;font-weight:700}
+  .cat-block{margin-bottom:12px}
+  .cat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
+  .cat-content{font-size:13px;color:var(--text2);line-height:1.55}
+  .pro-list,.con-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+  .pro-list li,.con-list li{display:flex;gap:7px;font-size:13px;color:var(--text2);line-height:1.45}
+  .dot{width:16px;min-width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;margin-top:1px;flex-shrink:0;font-weight:700}
+  .dot-pro{background:var(--teal-d);color:var(--teal-l);border:1px solid var(--teal)}
+  .dot-con{background:var(--coral-d);color:var(--coral-l);border:1px solid var(--coral)}
+  .fee-tag{display:inline-block;font-size:12px;font-weight:700;padding:3px 10px;border-radius:8px;background:var(--amber-d);color:var(--amber-l);border:1px solid var(--amber)}
+  .tool-divider{height:1px;background:var(--border);margin:11px 0}
+  /* CARDS */
+  .card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;margin-bottom:20px}
+  .card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer;transition:border-color .18s,background .18s}
+  .card:hover{border-color:var(--border2);background:var(--bg3)}.card.open{border-color:var(--teal)}
+  .card-head{display:flex;align-items:center;gap:12px}.card-icon{font-size:22px}
+  .card-title{font-size:15px;font-weight:700;color:var(--text)}
+  .card-sub{font-size:13px;color:var(--text3);margin-top:2px}
+  .card-body{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:none}.card.open .card-body{display:block}
+  .card-body p{font-size:14px;color:var(--text2);line-height:1.65;margin-bottom:10px}
+  .flow{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin:10px 0}
+  .step-pill{background:var(--bg3);border:1px solid var(--border2);border-radius:14px;padding:5px 12px;font-size:13px;color:var(--text2)}
+  .step-arr{color:var(--text3);font-size:13px}
+  /* AGENTS */
+  .prompt-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:12px}
+  .prompt-scenario{font-size:16px;font-weight:700;color:var(--text);margin-bottom:5px}
+  .prompt-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);margin-bottom:5px;margin-top:12px}
+  .prompt-text{font-size:13px;color:var(--text2);background:var(--bg3);border-left:3px solid var(--teal);padding:9px 13px;border-radius:0 8px 8px 0;line-height:1.6;font-style:italic}
+  .agent-steps{display:flex;flex-wrap:wrap;gap:5px;margin-top:9px}
+  .agent-step-pill{background:var(--bg3);border:1px solid var(--teal);border-radius:12px;padding:4px 11px;font-size:12px;color:var(--teal-l);font-weight:700}
+  .agent-card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-bottom:16px}
+  .agent-card{border-radius:12px;border:1.5px solid;padding:18px;cursor:pointer;transition:filter .18s}
+  .agent-card:hover{filter:brightness(1.08)}
+  .agent-card.ac-teal{background:var(--teal-d);border-color:var(--teal)}.agent-card.ac-blue{background:var(--blue-d);border-color:var(--blue)}.agent-card.ac-purple{background:var(--purple-d);border-color:var(--purple)}.agent-card.ac-amber{background:var(--amber-d);border-color:var(--amber)}
+  .agent-card-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .agent-card-icon{font-size:22px}
+  .agent-card-name{font-size:15px;font-weight:700}.agent-card-role{font-size:13px;color:var(--text3);margin-top:2px}
+  .ac-teal .agent-card-name{color:var(--teal-l)}.ac-blue .agent-card-name{color:#B5D4F4}.ac-purple .agent-card-name{color:#CECBF6}.ac-amber .agent-card-name{color:var(--amber-l)}
+  .agent-divider{height:1px;margin-bottom:12px;opacity:.35}
+  .ac-teal .agent-divider{background:var(--teal)}.ac-blue .agent-divider{background:var(--blue)}.ac-purple .agent-divider{background:var(--purple)}.ac-amber .agent-divider{background:var(--amber)}
+  .agent-card-body{font-size:14px;color:var(--text2);line-height:1.6}
+  .agent-expand{display:none;margin-top:14px;padding-top:14px;font-size:13px;color:var(--text2);line-height:1.65}
+  .agent-card.open .agent-expand{display:block}
+  .ac-teal .agent-expand{border-top:1px solid rgba(29,158,117,.3)}.ac-blue .agent-expand{border-top:1px solid rgba(55,138,221,.3)}.ac-purple .agent-expand{border-top:1px solid rgba(127,119,221,.3)}.ac-amber .agent-expand{border-top:1px solid rgba(239,159,39,.3)}
+  .agent-expand p{margin-bottom:6px}
+  /* ORCHESTRATION */
+  .orch-wrap{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:22px;margin-bottom:16px;display:flex;flex-direction:column;align-items:center}
+  .orch-main-box{background:var(--teal-d);border:1.5px solid var(--teal);color:var(--teal-l);border-radius:8px;padding:12px 18px;text-align:center;width:220px;max-width:220px}
+  .orch-main-box .title{font-size:15px;font-weight:700}
+  .orch-main-box .sub{font-size:12px;font-weight:400;opacity:.88;margin-top:4px;line-height:1.4}
+  .orch-human-box{background:var(--purple-d);border:1.5px solid var(--purple);color:var(--purple-l);border-radius:8px;padding:12px 18px;text-align:center;width:220px;max-width:220px}
+  .orch-human-box .title{font-size:15px;font-weight:700}
+  .orch-human-box .sub{font-size:12px;font-weight:400;opacity:.88;margin-top:4px;line-height:1.4}
+  .orch-done-box{background:var(--bg3);border:1px solid var(--teal);color:var(--teal-l);border-radius:8px;padding:10px 18px;font-size:14px;font-weight:700;text-align:center}
+  .orch-arr{font-size:16px;color:var(--text3);text-align:center;margin:8px 0;width:100%}
+  .orch-workers{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:4px 0}
+  .orch-worker{background:var(--bg3);border:1px solid var(--border2);border-radius:8px;padding:9px 14px;text-align:center;font-size:13px;font-weight:700;color:var(--text)}
+  .mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+  .mini-box{background:var(--bg3);border-radius:8px;padding:11px 13px}
+  .mini-title{font-size:14px;font-weight:700;color:var(--text);margin-bottom:4px}
+  .mini-desc{font-size:12px;color:var(--text3);line-height:1.5}
+  .orch-example{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:10px;cursor:pointer}
+  .orch-example:hover{border-color:var(--border2)}.orch-example.open{border-color:var(--teal)}
+  .orch-ex-head{display:flex;align-items:center;gap:12px}
+  .orch-ex-icon{font-size:22px}
+  .orch-ex-title{font-size:15px;font-weight:700;color:var(--text)}
+  .orch-ex-sub{font-size:13px;color:var(--text2);margin-top:2px}
+  .orch-ex-body{display:none;margin-top:14px;padding-top:14px;border-top:1px solid var(--border)}
+  .orch-example.open .orch-ex-body{display:block}
+  /* SWIMLANES */
+  .swimlane{display:flex;margin-bottom:8px;align-items:stretch}
+  .swimlane-label{width:82px;min-width:82px;border-radius:10px 0 0 10px;display:flex;align-items:center;justify-content:center;padding:10px 6px;text-align:center;font-size:13px;font-weight:700;line-height:1.3}
+  .sl-pr{background:#0d2e22;color:var(--teal-l);border:1.5px solid var(--teal);border-right:none}
+  .sl-src{background:var(--blue-d);color:#85B7EB;border:1.5px solid var(--blue);border-right:none}
+  .sl-po{background:var(--amber-d);color:var(--amber-l);border:1.5px solid var(--amber);border-right:none}
+  .swimlane-steps{flex:1;display:flex;align-items:stretch;gap:6px;background:var(--bg2);border-radius:0 10px 10px 0;border:1.5px solid var(--border2);border-left:none;padding:8px;overflow-x:auto}
+  .sl-step{min-width:118px;max-width:168px;flex:1;background:var(--bg3);border:1.5px solid var(--border2);border-radius:8px;padding:10px 10px 8px;cursor:pointer;transition:border-color .18s;display:flex;flex-direction:column;gap:3px}
+  .sl-step:hover{border-color:var(--teal)}.sl-step.active{border-color:var(--teal);background:#041a12}
+  .sl-step.prio{border-color:var(--amber);background:#1c1003}.sl-step.prio.active{background:#241504}
+  .sl-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+  .sl-subprocess{font-size:11px;font-weight:700;color:var(--text2)}
+  .sl-prio-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;background:var(--amber-d);color:var(--amber-l);border:1px solid var(--amber)}
+  .sl-step-title{font-size:12px;font-weight:700;color:var(--text);line-height:1.35;flex:1}
+  .sl-effort{font-size:10px;color:var(--red);font-weight:700}
+  .sl-bottom{display:flex;align-items:center;margin-top:4px}
+  .sl-tag{font-size:10px;padding:2px 7px;border-radius:6px;font-weight:700}
+  .tag-ai{background:var(--teal-d);color:var(--teal-l);border:1px solid var(--teal)}
+  .tag-human{background:var(--purple-d);color:#AFA9EC;border:1px solid var(--purple)}
+  .sl-arr{display:flex;align-items:center;color:var(--text3);font-size:13px;padding:0 1px;flex-shrink:0}
+  /* DETAIL PANEL */
+  .step-detail-panel{display:none;background:var(--bg2);border:1px solid var(--border);border-radius:10px;margin:4px 0 8px;overflow:hidden}
+  .step-detail-panel.visible{display:block}
+  .sdp-head{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--border)}
+  .sdp-title{font-size:15px;font-weight:700;color:var(--text)}
+  .sdp-close{background:none;border:none;color:var(--text3);cursor:pointer;font-size:16px;padding:0}
+  .sdp-close:hover{color:var(--text)}
+  .sdp-grid{display:grid;grid-template-columns:1fr 1fr}
+  .sdp-col{padding:14px 16px}.sdp-col:first-child{border-right:1px solid var(--border)}
+  .sdp-col-label{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3);margin-bottom:10px}
+  .sdp-task-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+  .sdp-task-list li{display:flex;gap:9px;font-size:13px;color:var(--text2);line-height:1.5;align-items:flex-start}
+  .sdp-task-list li::before{content:attr(data-n);min-width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .sdp-task-list.manual li::before{background:#2d1008;color:#F0997B;border:1px solid var(--coral)}
+  .sdp-task-list.agent  li::before{background:var(--teal-d);color:var(--teal-l);border:1px solid var(--teal)}
+  .li-text{flex:1}
+  /* AI / Human inline badges — bold and visible */
+  .badge-ai{display:inline-flex;align-items:center;font-size:11px;font-weight:900;padding:2px 9px;border-radius:6px;background:var(--teal-d);color:var(--teal-l);border:1.5px solid var(--teal);margin-left:6px;vertical-align:middle;white-space:nowrap;letter-spacing:.04em}
+  .badge-human{display:inline-flex;align-items:center;font-size:11px;font-weight:900;padding:2px 9px;border-radius:6px;background:var(--purple-d);color:var(--purple-l);border:1.5px solid var(--purple);margin-left:6px;vertical-align:middle;white-space:nowrap;letter-spacing:.04em}
+  .sdp-footer{display:flex;align-items:center;gap:12px;padding:10px 16px;border-top:1px solid var(--border);flex-wrap:wrap}
+  .sdp-badge{font-size:11px;padding:3px 10px;border-radius:8px;font-weight:700}
+  .footer{padding:16px 32px;border-top:1px solid var(--border);font-size:12px;color:var(--text3);text-align:center;font-weight:700}
+  .mobile-tabs{display:none;padding:10px 16px;gap:6px;overflow-x:auto;border-bottom:1px solid var(--border);background:var(--bg)}
+  .mobile-tab{padding:7px 14px;border-radius:14px;border:1px solid var(--border2);background:transparent;color:var(--text2);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .18s}
+  .mobile-tab.active{background:var(--teal-d);border-color:var(--teal);color:var(--teal-l)}
+  @media(max-width:720px){.sidebar{display:none}.content{padding:20px 16px}.header{padding:16px}.mobile-tabs{display:flex}.sdp-grid{grid-template-columns:1fr}.sdp-col:first-child{border-right:none;border-bottom:1px solid var(--border)}}
+  @media(max-width:480px){.ov-tag{display:none}.cmp-table th,.cmp-table td{padding:10px;font-size:13px}}
+</style>
+</head>
+<body>
+<header class="header">
+  <div class="header-badge">🤖</div>
+  <div>
+    <div class="header-title">AI for Procurement — Interactive Roadmap</div>
+    <div class="header-sub">Level 1 → Level 2 → Level 3 → Level 4 MVP</div>
+  </div>
+</header>
+<div class="mobile-tabs">
+  <button class="mobile-tab active" onclick="switchTab('overview')">Overview</button>
+  <button class="mobile-tab" onclick="switchTab('basics')">1 · AI basics</button>
+  <button class="mobile-tab" onclick="switchTab('agents')">2 · Agents</button>
+  <button class="mobile-tab" onclick="switchTab('orch')">3 · Orchestration</button>
+  <button class="mobile-tab" onclick="switchTab('mvp')">4 · MVP</button>
+</div>
+<div class="main">
+  <nav class="sidebar">
+    <div class="sidebar-label">Navigation</div>
+    <button class="nav-btn active" data-color="teal" onclick="switchTab('overview')"><span class="nav-dot"></span>Overview map</button>
+    <div class="sidebar-label" style="margin-top:8px;">Levels</div>
+    <button class="nav-btn" data-color="blue"   onclick="switchTab('basics')"><span class="nav-dot"></span>1 · AI basics</button>
+    <button class="nav-btn" data-color="purple" onclick="switchTab('agents')"><span class="nav-dot"></span>2 · AI agents</button>
+    <button class="nav-btn" data-color="amber"  onclick="switchTab('orch')"><span class="nav-dot"></span>3 · Orchestration</button>
+    <button class="nav-btn" data-color="coral"  onclick="switchTab('mvp')"><span class="nav-dot"></span>4 · Procurement MVP</button>
+  </nav>
+  <main class="content">
+
+    <!-- OVERVIEW -->
+    <div class="section active" id="tab-overview">
+      <div class="section-title">AI Roadmap for Procurement</div>
+      <div class="section-desc">A step-by-step introduction — from AI assistants you can use today, to a fully automated S2P workflow. Click any level to explore.</div>
+      <div class="ov-row lv1" onclick="switchTab('basics')"><div class="ov-num">1</div><div class="ov-body"><div class="ov-title">AI basics — your smart assistant</div><div class="ov-desc">AI that reads, writes, summarises, and answers. No integration needed. Start today.</div></div><div class="ov-tag">Claude · GPT · Copilot</div></div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv2" onclick="switchTab('agents')"><div class="ov-num">2</div><div class="ov-body"><div class="ov-title">AI agents — AI that gets things done</div><div class="ov-desc">Receives ONE goal, plans its own steps, uses tools, checks its work, delivers a finished result.</div></div><div class="ov-tag">Agentic AI</div></div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv3" onclick="switchTab('orch')"><div class="ov-num">3</div><div class="ov-body"><div class="ov-title">Orchestration — AI team working in parallel</div><div class="ov-desc">Multiple specialised agents coordinated by a supervisor. Human approves at the gate.</div></div><div class="ov-tag">Multi-agent</div></div>
+      <div class="ov-arrow">↓</div>
+      <div class="ov-row lv4" onclick="switchTab('mvp')"><div class="ov-num">4</div><div class="ov-body"><div class="ov-title">Procurement MVP — full S2P automation</div><div class="ov-desc">PR creation → SOCO filter → sourcing → award → PO → expediting. Prioritised by business impact.</div></div><div class="ov-tag">Priority build</div></div>
+    </div>
+
+    <!-- BASICS -->
+    <div class="section" id="tab-basics">
+      <div class="section-title">Level 1 · AI Basics</div>
+      <div class="section-desc">AI works like a brilliant colleague — paste text or ask a question, and it responds instantly. No system integration, no setup needed.</div>
+      <div class="sec-label" style="margin-top:0;">Quick comparison table</div>
+      <div class="cmp-wrap">
+        <table class="cmp-table">
+          <thead><tr><th></th><th>ChatGPT</th><th>Claude</th><th>MS Copilot</th></tr></thead>
+          <tbody>
+            <tr><td>Writing Quality</td><td><span class="rating r-good">✅ Good</span></td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-ok">⚠️ Decent</span></td></tr>
+            <tr><td>Long Documents</td><td><span class="rating r-ok">⚠️ OK</span></td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-ok">⚠️ OK</span></td></tr>
+            <tr><td>Contract Review</td><td><span class="rating r-ok">⚠️ Limited</span></td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-ok">⚠️ Limited</span></td></tr>
+            <tr><td>Vendor Comparison</td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-good">✅ Strong</span></td><td><span class="rating r-ok">⚠️ OK</span></td></tr>
+            <tr><td>Email &amp; Comms</td><td><span class="rating r-good">✅ Good</span></td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-good">✅ Good</span></td></tr>
+            <tr><td>M365 Integration</td><td><span class="rating r-no">❌</span></td><td><span class="rating r-no">❌</span></td><td><span class="rating r-best">✅✅ Best</span></td></tr>
+            <tr><td>SAP / Coupa Integration</td><td><span class="rating r-ok">⚠️ Via API</span></td><td><span class="rating r-ok">⚠️ Via API</span></td><td><span class="rating r-ok">⚠️ Via API</span></td></tr>
+            <tr><td>Ecosystem / Plugins</td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-ok">⚠️ Growing</span></td><td><span class="rating r-good">✅ Good</span></td></tr>
+            <tr><td>Honesty / Safety</td><td><span class="rating r-ok">⚠️ Sycophantic</span></td><td><span class="rating r-best">✅✅ Best</span></td><td><span class="rating r-ok">⚠️ OK</span></td></tr>
+            <tr><td>Fee</td><td><span class="rating r-ok">⚠️ ~$20/mo</span></td><td><span class="rating r-ok">⚠️ ~$20/mo</span></td><td><span class="rating r-ok">⚠️ ~$30/user/mo</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="sec-label">Detailed breakdown — strengths, limitations &amp; fit</div>
+      <div class="tool-grid">
+        <div class="tool-card"><div class="tool-name">Claude</div><div class="tool-vendor">by Anthropic</div><div class="cat-block"><div class="cat-label">Best use for</div><div class="cat-content">Long document analysis, contract review, complex reasoning, precise Q&amp;A over large procurement files.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Strengths</div><ul class="pro-list"><li><span class="dot dot-pro">✓</span>Reads full contracts (100+ pages) in one go</li><li><span class="dot dot-pro">✓</span>Very precise — rarely hallucinates facts or figures</li><li><span class="dot dot-pro">✓</span>Best for complex reasoning and multi-step analysis</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Limitations</div><ul class="con-list"><li><span class="dot dot-con">✗</span>No native Microsoft / SAP integration</li><li><span class="dot dot-con">✗</span>Separate login — not embedded in daily workflow</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Integration &amp; plugins</div><div class="cat-content">API available for custom integration. No out-of-the-box Microsoft/Google connector.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Fee</div><div class="cat-content"><span class="fee-tag">Paid</span> &nbsp; Free tier limited · Pro from ~$20/month</div></div></div>
+        <div class="tool-card"><div class="tool-name">ChatGPT</div><div class="tool-vendor">by OpenAI</div><div class="cat-block"><div class="cat-label">Best use for</div><div class="cat-content">Vendor comparisons, structured summaries, general writing tasks, and quick Q&amp;A — great starting point for teams new to AI.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Strengths</div><ul class="pro-list"><li><span class="dot dot-pro">✓</span>Most widely known — easiest management buy-in</li><li><span class="dot dot-pro">✓</span>Strong for comparisons, summaries, and drafting</li><li><span class="dot dot-pro">✓</span>Rich plugin / GPT store ecosystem</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Limitations</div><ul class="con-list"><li><span class="dot dot-con">✗</span>Can state incorrect numbers confidently — always verify</li><li><span class="dot dot-con">✗</span>No native Microsoft/SAP integration without custom build</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Integration &amp; plugins</div><div class="cat-content">GPT store with 1000+ plugins. Custom GPTs buildable without coding. API available.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Fee</div><div class="cat-content"><span class="fee-tag">Paid</span> &nbsp; Free tier available · Plus from ~$20/month · Team plans available</div></div></div>
+        <div class="tool-card"><div class="tool-name">Microsoft Copilot</div><div class="tool-vendor">by Microsoft</div><div class="cat-block"><div class="cat-label">Best use for</div><div class="cat-content">Teams already on M365 — summarising emails, searching across files, drafting in Word, and meeting recaps in Teams.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Strengths</div><ul class="pro-list"><li><span class="dot dot-pro">✓</span>Embedded in Teams, Outlook, Word, Excel — no new tool</li><li><span class="dot dot-pro">✓</span>Searches across your emails, files, and meetings natively</li><li><span class="dot dot-pro">✓</span>Best fit if organisation already uses Microsoft 365</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Limitations</div><ul class="con-list"><li><span class="dot dot-con">✗</span>Requires M365 Copilot licence — significant additional cost</li><li><span class="dot dot-con">✗</span>Weaker than Claude for deep document analysis</li></ul></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Integration &amp; plugins</div><div class="cat-content">Native integration with Teams, Outlook, Word, Excel, SharePoint, and Dynamics 365.</div></div><div class="tool-divider"></div><div class="cat-block"><div class="cat-label">Fee</div><div class="cat-content"><span class="fee-tag">Paid</span> &nbsp; ~$30/user/month on top of existing M365 licence</div></div></div>
+      </div>
+      <div class="sec-label">Procurement use cases — click to expand</div>
+      <div class="card-grid">
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📋</span><div><div class="card-title">Contract review &amp; red flag detection</div><div class="card-sub">Before signing any vendor agreement</div></div></div><div class="card-body"><p>Paste the contract, define your standard terms, and AI flags every deviation — payment terms, liability caps, SLA gaps, auto-renewal traps.</p><div class="flow"><span class="step-pill">Paste contract</span><span class="step-arr">→</span><span class="step-pill">Define standard</span><span class="step-arr">→</span><span class="step-pill">AI flags deviations</span><span class="step-arr">→</span><span class="step-pill">Negotiate with clarity</span></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">⚖️</span><div><div class="card-title">Vendor bid comparison &amp; scoring</div><div class="card-sub">After RFQ responses come in</div></div></div><div class="card-body"><p>Paste all bid summaries and evaluation weights. AI builds a scored matrix, highlights the winner, and flags trade-offs.</p><div class="flow"><span class="step-pill">Paste all bids</span><span class="step-arr">→</span><span class="step-pill">Set weights</span><span class="step-arr">→</span><span class="step-pill">AI scores &amp; ranks</span><span class="step-arr">→</span><span class="step-pill">Recommendation ready</span></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">✉️</span><div><div class="card-title">Vendor communication drafting</div><div class="card-sub">RFQs, negotiation emails, rejection letters</div></div></div><div class="card-body"><p>Describe the situation and AI drafts the email — formal RFQ, negotiation push, delivery chaser, or polite rejection.</p><div class="flow"><span class="step-pill">Describe situation</span><span class="step-arr">→</span><span class="step-pill">AI drafts email</span><span class="step-arr">→</span><span class="step-pill">Review &amp; send</span></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📊</span><div><div class="card-title">Spend &amp; savings report writing</div><div class="card-sub">Monthly and quarterly reporting</div></div></div><div class="card-body"><p>Paste raw spend data or bullet points and AI turns it into a polished management report with executive summary and recommendations.</p><div class="flow"><span class="step-pill">Paste raw data</span><span class="step-arr">→</span><span class="step-pill">AI writes report</span><span class="step-arr">→</span><span class="step-pill">Board-ready in minutes</span></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">📖</span><div><div class="card-title">Policy &amp; compliance Q&amp;A</div><div class="card-sub">Instant answers without folder hunting</div></div></div><div class="card-body"><p>Upload your procurement policy once. Anyone can ask questions in plain language — no more digging through 50-page PDFs.</p><div class="flow"><span class="step-pill">Upload policy</span><span class="step-arr">→</span><span class="step-pill">Ask in plain English</span><span class="step-arr">→</span><span class="step-pill">Instant answer with source</span></div></div></div>
+        <div class="card" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">🔍</span><div><div class="card-title">Supplier background research</div><div class="card-sub">Before onboarding a new vendor</div></div></div><div class="card-body"><p>Ask AI to summarise publicly available information about a potential vendor — reputation, news, financial signals — before formal evaluation.</p><div class="flow"><span class="step-pill">Name the vendor</span><span class="step-arr">→</span><span class="step-pill">AI researches</span><span class="step-arr">→</span><span class="step-pill">Flags &amp; signals surfaced</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- AGENTS -->
+    <div class="section" id="tab-agents">
+      <div class="section-title">Level 2 · AI Agents</div>
+      <div class="section-desc">An AI agent receives ONE goal and handles everything — planning, tool use, self-checking, and delivery — without step-by-step instructions from you.</div>
+      <div class="card" style="margin-bottom:18px;" onclick="toggleCard(this)"><div class="card-head"><span class="card-icon">🤖</span><div><div class="card-title">What makes an AI agent different?</div><div class="card-sub">Beyond question &amp; answer</div></div></div><div class="card-body"><p>Regular AI = answers your question. AI Agent = receives ONE goal, plans all steps itself, uses tools, checks its own work, delivers a finished result.</p><div class="flow"><span class="step-pill">1 goal in</span><span class="step-arr">→</span><span class="step-pill">Plans steps</span><span class="step-arr">→</span><span class="step-pill">Uses tools</span><span class="step-arr">→</span><span class="step-pill">Checks work</span><span class="step-arr">→</span><span class="step-pill">Result out</span></div></div></div>
+      <div class="sec-label" style="margin-top:0;">Daily life examples</div>
+      <div class="prompt-card"><div class="prompt-scenario">✈️ &nbsp;"Plan me a 3-day business trip to Singapore next week"</div><div class="prompt-label">What you type</div><div class="prompt-text">"I need to fly to Singapore from Jakarta for a procurement conference on March 15–17. Book the cheapest flights, a hotel near the venue, and put everything in my calendar."</div><div class="prompt-label">What the agent does — all automatically</div><div class="agent-steps"><span class="agent-step-pill">Checks your calendar</span><span class="agent-step-pill">Searches flights</span><span class="agent-step-pill">Compares hotels</span><span class="agent-step-pill">Books both</span><span class="agent-step-pill">Adds to calendar</span><span class="agent-step-pill">Sends itinerary email</span></div></div>
+      <div class="prompt-card"><div class="prompt-scenario">🛒 &nbsp;"Restock office supplies before month-end"</div><div class="prompt-label">What you type</div><div class="prompt-text">"Check what office supplies are running low, find the best price from our approved vendors, and prepare a purchase order for my approval."</div><div class="prompt-label">What the agent does — all automatically</div><div class="agent-steps"><span class="agent-step-pill">Checks inventory levels</span><span class="agent-step-pill">Identifies low-stock items</span><span class="agent-step-pill">Compares 3 vendor prices</span><span class="agent-step-pill">Drafts PO</span><span class="agent-step-pill">Routes for approval</span></div></div>
+      <div class="prompt-card"><div class="prompt-scenario">📊 &nbsp;"Prepare my Monday morning team briefing"</div><div class="prompt-label">What you type</div><div class="prompt-text">"Every Friday at 4pm, pull this week's open PRs, any overdue deliveries, and contracts expiring within 60 days. Write a 1-page briefing for my team meeting."</div><div class="prompt-label">What the agent does — every week, automatically</div><div class="agent-steps"><span class="agent-step-pill">Reads Coupa data</span><span class="agent-step-pill">Pulls delivery status from S/4</span><span class="agent-step-pill">Checks contract dates</span><span class="agent-step-pill">Writes briefing</span><span class="agent-step-pill">Emails team Friday 4pm</span></div></div>
+      <div class="sec-label">Smart procurement agents — click to expand</div>
+      <div class="agent-card-grid">
+        <div class="agent-card ac-teal" onclick="toggleAgent(this)"><div class="agent-card-header"><span class="agent-card-icon">📄</span><div><div class="agent-card-name">Contract matching agent</div><div class="agent-card-role">Which contract covers this PR?</div></div></div><div class="agent-divider"></div><div class="agent-card-body">Reads every incoming PR, searches all active contracts, instantly identifies the right match — with spend headroom check and expiry warning.<div class="agent-expand"><p><strong style="color:#9FE1CB;">Output:</strong> KTR-2024-0088 — welding materials, valid Dec 2025, IDR 180M headroom. PR (IDR 22M) within limit. Alt: KTR-2024-0045 expires in 45 days — not recommended.</p></div></div></div>
+        <div class="agent-card ac-blue" onclick="toggleAgent(this)"><div class="agent-card-header"><span class="agent-card-icon">🔗</span><div><div class="agent-card-name">PR bundling agent</div><div class="agent-card-role">Group PRs for maximum savings</div></div></div><div class="agent-divider"></div><div class="agent-card-body">Scans all open PRs, clusters by category and timing, estimates savings from bundling, and flags exceptions that should not be grouped.<div class="agent-expand"><p><strong style="color:#B5D4F4;">Output:</strong> Bundle A: 7 MRO PRs (IDR 340M) — est. 12-15% savings. Bundle B: 4 IT peripheral PRs (IDR 89M). ⚠️ PR-0418 (lab chemicals): do NOT bundle.</p></div></div></div>
+        <div class="agent-card ac-purple" onclick="toggleAgent(this)"><div class="agent-card-header"><span class="agent-card-icon">⏰</span><div><div class="agent-card-name">Contract expiry monitor</div><div class="agent-card-role">Zero contracts lapse unnoticed</div></div></div><div class="agent-divider"></div><div class="agent-card-body">Scans all active contracts daily, cross-checks which open PRs depend on each, and sends proactive alerts before it is too late to act.<div class="agent-expand"><p><strong style="color:#CECBF6;">Output:</strong> 🔴 KTR-2024-0033 expires April 20. 6 open PRs depend on this. 🟡 KTR-2024-0051 expires May 15. No renewal started.</p></div></div></div>
+        <div class="agent-card ac-amber" onclick="toggleAgent(this)"><div class="agent-card-header"><span class="agent-card-icon">💰</span><div><div class="agent-card-name">Price benchmarking agent</div><div class="agent-card-role">Is this vendor quote fair?</div></div></div><div class="agent-divider"></div><div class="agent-card-body">Compares vendor quote against your historical spend data and market rates. Generates a specific counteroffer with reasoning.<div class="agent-expand"><p><strong style="color:#FAC775;">Output:</strong> Quote: IDR 45,000/unit. Avg: IDR 38,500. Market: IDR 36,000–41,000. 10-17% above market. Counteroffer: IDR 39,000/unit.</p></div></div></div>
+      </div>
+    </div>
+
+    <!-- ORCHESTRATION -->
+    <div class="section" id="tab-orch">
+      <div class="section-title">Level 3 · Orchestration</div>
+      <div class="section-desc">Multiple specialised agents working in parallel, coordinated by a supervisor. Humans stay in control at the approval gate.</div>
+      <div class="sec-label" style="margin-top:0;">How orchestration works</div>
+      <div class="orch-wrap">
+        <div class="orch-main-box"><div class="title">🎯 Orchestrator agent</div><div class="sub">Receives goal · assigns tasks<br>collects &amp; coordinates results</div></div>
+        <div class="orch-arr">↙ &nbsp;&nbsp; ↓ &nbsp;&nbsp; ↘</div>
+        <div class="orch-workers"><div class="orch-worker">🔍 Research</div><div class="orch-worker">✍️ Drafting</div><div class="orch-worker">✅ Compliance</div><div class="orch-worker">📧 Notifier</div></div>
+        <div class="orch-arr">↘ &nbsp;&nbsp; ↓ &nbsp;&nbsp; ↙</div>
+        <div class="orch-human-box"><div class="title">👤 Human approval gate</div><div class="sub">You decide — AI prepares everything</div></div>
+        <div class="orch-arr">↓</div>
+        <div class="orch-done-box">📦 Finished result delivered</div>
+      </div>
+      <div class="sec-label">Procurement examples — click to expand</div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">📦</span><div><div class="orch-ex-title">End-to-end MRO bundle sourcing</div><div class="orch-ex-sub">7 PRs → 1 awarded vendor, fully automated</div></div></div><div class="orch-ex-body"><div class="mini-grid"><div class="mini-box"><div class="mini-title">🔍 Vendor agent</div><div class="mini-desc">Shortlists 5 qualified MRO vendors, checks blacklist and performance history</div></div><div class="mini-box"><div class="mini-title">📋 Event agent</div><div class="mini-desc">Builds RFQ in Coupa — line items, specs, evaluation weights, deadline</div></div><div class="mini-box"><div class="mini-title">⚖️ Scoring agent</div><div class="mini-desc">Scores all bids on price/delivery/compliance, flags outliers</div></div><div class="mini-box"><div class="mini-title">📄 Award agent</div><div class="mini-desc">Prepares award recommendation + draft PO + negotiation brief for buyer</div></div></div><p style="font-size:14px;color:var(--text2);margin-top:10px;">Buyer receives one screen: ranked vendors, scores, and a draft PO. Click approve → done.</p></div></div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">⚠️</span><div><div class="orch-ex-title">Proactive contract renewal management</div><div class="orch-ex-sub">No contracts lapse unnoticed</div></div></div><div class="orch-ex-body"><div class="mini-grid"><div class="mini-box"><div class="mini-title">📅 Expiry agent</div><div class="mini-desc">Flags contracts expiring in 30/60/90 days, cross-checks open PRs</div></div><div class="mini-box"><div class="mini-title">📊 Risk agent</div><div class="mini-desc">Scores urgency: value at risk, alternatives, re-tender lead time</div></div><div class="mini-box"><div class="mini-title">✉️ Comms agent</div><div class="mini-desc">Drafts renewal emails to vendors, routes internal requests to buyers</div></div></div><p style="font-size:14px;color:var(--text2);margin-top:10px;">🔴 KTR-2024-0033 expires in 28 days — IDR 1.2B at risk, 6 open PRs affected. Renewal email drafted.</p></div></div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">🚨</span><div><div class="orch-ex-title">Emergency procurement — fast track</div><div class="orch-ex-sub">Critical item in 48 hours, full audit trail</div></div></div><div class="orch-ex-body"><div class="flow"><span class="step-pill">SOCO check</span><span class="step-arr">→</span><span class="step-pill">Contract found</span><span class="step-arr">→</span><span class="step-pill">Draft PO in 3 mins</span><span class="step-arr">→</span><span class="step-pill">Emergency approval</span><span class="step-arr">→</span><span class="step-pill">Vendor confirmed</span></div><p style="font-size:14px;color:var(--text2);margin-top:8px;">Full process with complete audit trail in under 10 minutes — no policy shortcuts, no compliance gaps.</p></div></div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">💳</span><div><div class="orch-ex-title">Preferred vendor utilisation monitoring</div><div class="orch-ex-sub">Are we using the contracts we negotiated?</div></div></div><div class="orch-ex-body"><div class="mini-grid"><div class="mini-box"><div class="mini-title">📥 Spend agent</div><div class="mini-desc">Pulls all PO data from S/4, classifies by vendor contract status</div></div><div class="mini-box"><div class="mini-title">🔎 Compliance agent</div><div class="mini-desc">Cross-checks each PO against active contracts, flags off-contract spend</div></div><div class="mini-box"><div class="mini-title">📈 Analytics agent</div><div class="mini-desc">Calculates utilisation rate and estimates missed savings opportunity</div></div></div><p style="font-size:14px;color:var(--text2);margin-top:10px;">Utilisation: 67% (target: 85%). IDR 340M off-contract MRO detected. Missed savings: IDR 28M.</p></div></div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">📑</span><div><div class="orch-ex-title">Monthly procurement health report</div><div class="orch-ex-sub">Board-ready in minutes, not days</div></div></div><div class="orch-ex-body"><div class="mini-grid"><div class="mini-box"><div class="mini-title">📥 Data agent</div><div class="mini-desc">Pulls spend, PO, contract, savings data from Coupa + S/4</div></div><div class="mini-box"><div class="mini-title">📈 Analytics agent</div><div class="mini-desc">Calculates all KPIs vs target: savings rate, cycle time, coverage</div></div><div class="mini-box"><div class="mini-title">✍️ Writing agent</div><div class="mini-desc">Writes plain-English executive summary</div></div><div class="mini-box"><div class="mini-title">🔎 Audit agent</div><div class="mini-desc">Scans for anomalies — duplicate payments, split POs, off-contract spend</div></div></div><p style="font-size:14px;color:var(--text2);margin-top:10px;">⚠️ Anomaly: PO-2025-0331 paid twice to PT ABC — IDR 84M. Finance review needed before finalising.</p></div></div>
+      <div class="orch-example" onclick="toggleCard(this)"><div class="orch-ex-head"><span class="orch-ex-icon">🏭</span><div><div class="orch-ex-title">Quarterly supplier performance scorecard</div><div class="orch-ex-sub">Automated across all active vendors</div></div></div><div class="orch-ex-body"><div class="mini-grid"><div class="mini-box"><div class="mini-title">📦 Delivery agent</div><div class="mini-desc">GR dates vs PO confirmed — on-time delivery rate per vendor</div></div><div class="mini-box"><div class="mini-title">💰 Price agent</div><div class="mini-desc">Invoiced vs contracted prices — flags overcharges automatically</div></div><div class="mini-box"><div class="mini-title">📋 Quality agent</div><div class="mini-desc">Rejection and return records, defect rate per vendor</div></div><div class="mini-box"><div class="mini-title">📊 Scoring agent</div><div class="mini-desc">Compiles final scorecard, recommends retain/review/exit</div></div></div><p style="font-size:14px;color:var(--text2);margin-top:10px;">PT Maju Jaya: 71/100. On-time: 68% (below 85% target). Performance review required before next renewal.</p></div></div>
+    </div>
+
+    <!-- MVP -->
+    <div class="section" id="tab-mvp">
+      <div class="section-title">Level 4 · Procurement MVP</div>
+      <div class="section-desc">Full S2P process map — click any step to compare current manual process vs AI agent tasks.</div>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+        <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="width:10px;height:10px;border-radius:50%;background:var(--amber);display:inline-block;"></span>Priority</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--teal-d);color:var(--teal-l);border:1.5px solid var(--teal);font-weight:900;">AI</span>AI step</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--purple-d);color:#AFA9EC;border:1.5px solid var(--purple);font-weight:900;">Human</span>Human step</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="font-size:12px;color:var(--red);font-weight:700;">XX mins</span>= current human time</div>
+      </div>
+
+      <div class="swimlane">
+        <div class="swimlane-label sl-pr">PR</div>
+        <div class="swimlane-steps">
+          <div class="sl-step" onclick="showDetail(this,1)" id="sl-1"><div class="sl-top"><span class="sl-subprocess">PR Creation</span></div><div class="sl-step-title">Demand Signal Detection</div><div class="sl-effort">~5 mins</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step prio" onclick="showDetail(this,2)" id="sl-2"><div class="sl-top"><span class="sl-subprocess">SOCO Filter</span><span class="sl-prio-badge">P1</span></div><div class="sl-step-title">Contract &amp; Sourcing Check</div><div class="sl-effort">15 – 60 mins / PR</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+        </div>
+      </div>
+      <div class="step-detail-panel" id="detail-pr">
+        <div class="sdp-head"><div class="sdp-title" id="sdp-pr-title"></div><button class="sdp-close" onclick="closeDetail('pr')">✕</button></div>
+        <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-pr-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-pr-agent"></ul></div></div>
+        <div class="sdp-footer" id="sdp-pr-footer"></div>
+      </div>
+
+      <div class="swimlane" style="margin-top:6px;">
+        <div class="swimlane-label sl-src">Sourcing</div>
+        <div class="swimlane-steps">
+          <div class="sl-step" onclick="showDetail(this,3)" id="sl-3"><div class="sl-top"><span class="sl-subprocess">Event Creation</span></div><div class="sl-step-title">Sourcing Creation</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step" onclick="showDetail(this,4)" id="sl-4"><div class="sl-top"><span class="sl-subprocess">Event Creation</span></div><div class="sl-step-title">Supplier Discovery</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step" onclick="showDetail(this,5)" id="sl-5"><div class="sl-top"><span class="sl-subprocess">Event Creation</span></div><div class="sl-step-title">Supplier Invitation</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step" onclick="showDetail(this,6)" id="sl-6"><div class="sl-top"><span class="sl-subprocess">Award &amp; Nego</span></div><div class="sl-step-title">Bid Evaluation</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step" onclick="showDetail(this,7)" id="sl-7"><div class="sl-top"><span class="sl-subprocess">Award &amp; Nego</span></div><div class="sl-step-title">Negotiation Support</div><div class="sl-bottom"><span class="sl-tag tag-human">Human</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step" onclick="showDetail(this,8)" id="sl-8"><div class="sl-top"><span class="sl-subprocess">Award &amp; Nego</span></div><div class="sl-step-title">Award Decision</div><div class="sl-bottom"><span class="sl-tag tag-human">Human</span></div></div>
+        </div>
+      </div>
+      <div class="step-detail-panel" id="detail-src">
+        <div class="sdp-head"><div class="sdp-title" id="sdp-src-title"></div><button class="sdp-close" onclick="closeDetail('src')">✕</button></div>
+        <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-src-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-src-agent"></ul></div></div>
+        <div class="sdp-footer" id="sdp-src-footer"></div>
+      </div>
+
+      <div class="swimlane" style="margin-top:6px;">
+        <div class="swimlane-label sl-po">PO</div>
+        <div class="swimlane-steps">
+          <div class="sl-step prio" onclick="showDetail(this,9)" id="sl-9"><div class="sl-top"><span class="sl-subprocess">Flip to PO</span><span class="sl-prio-badge">P3</span></div><div class="sl-step-title">Purchase Order Creation</div><div class="sl-effort">1 PR: ~2 mins</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+          <div class="sl-arr">→</div>
+          <div class="sl-step prio" onclick="showDetail(this,10)" id="sl-10"><div class="sl-top"><span class="sl-subprocess">Expediting</span><span class="sl-prio-badge">P2</span></div><div class="sl-step-title">Delivery Monitoring</div><div class="sl-effort">120 mins / 5–10 vendors</div><div class="sl-bottom"><span class="sl-tag tag-ai">AI</span></div></div>
+        </div>
+      </div>
+      <div class="step-detail-panel" id="detail-po">
+        <div class="sdp-head"><div class="sdp-title" id="sdp-po-title"></div><button class="sdp-close" onclick="closeDetail('po')">✕</button></div>
+        <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-po-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-po-agent"></ul></div></div>
+        <div class="sdp-footer" id="sdp-po-footer"></div>
+      </div>
+    </div>
+
+  </main>
+</div>
+<footer class="footer">AI for Procurement Roadmap &nbsp;·&nbsp; Levels 1 → 4 &nbsp;·&nbsp; Coupa + S/4 Integration</footer>
+
+<script>
+const AI_B='<span class="badge-ai">AI</span>';
+const HU_B='<span class="badge-human">Human</span>';
+
+const steps={
+  1:{group:'pr',title:'Demand Signal Detection — PR Creation',
+     manual:['Receive item request','Consult w/ Procurement how to create the PR','Create PR'],
+     agent:[{t:'User input — receive item request',h:true},{t:'Chatbot analyzes item needed and suggests PR details',h:false},{t:'Create PR',h:true}],
+     tag:'AI + Human'},
+  2:{group:'pr',title:'Contract & Sourcing Check — SOCO Filter  ★ Priority 1',
+     manual:['Download SOCO','Check SOCO via Excel','Look up for purchasing group owner','Manual assign to purchasing group owner','Look up for available Contract','Look up for Previous PO','Grouping similar PRs / items to be 1 sourcing','Create sourcing'],
+     agent:[{t:'Download SOCO and ask AI to check',h:true},{t:'Read SOCO → Material, Porg, Pgrup',h:false},{t:'Assign to right purchasing group',h:false},{t:'Read contract available',h:false},{t:'Propose contract available, then Tag PR',h:false},{t:'Read Historical PR & PO',h:false},{t:'Compile PR-Sourcing Suggestion & Prev Vendor',h:false},{t:'Create sourcing',h:true}],
+     tag:'AI + Human'},
+  3:{group:'src',title:'Sourcing Creation — Event Creation',
+     manual:['Search PR number','Open PRs','Create Sourcing','Input other PRs to sourcing'],
+     agent:[{t:'Take result from SOCO filter',h:false},{t:'Create sourcing event from similar PR',h:false},{t:'Check Created Event',h:true}],
+     tag:'AI + Human'},
+  4:{group:'src',title:'Supplier Discovery — Event Creation',
+     manual:['Search sourcing items','Search history PO','Choose supplier'],
+     agent:[{t:'Search history PO',h:false},{t:'Suggest supplier',h:false},{t:'Choose Supplier',h:true}],
+     tag:'AI + Human'},
+  5:{group:'src',title:'Supplier Invitation — Event Creation',
+     manual:['Open sourcing event','Invite supplier'],
+     agent:[{t:'Invite supplier to sourcing event',h:false}],
+     tag:'AI'},
+  6:{group:'src',title:'Bid Evaluation — Award & Nego',
+     manual:['Open sourcing event','Surrogate bid / Check supplier bid','Calculate lowest bid','Create scenario'],
+     agent:[{t:'Review sourcing event',h:false},{t:'Create scenario in Coupa',h:false},{t:'Recommend Scenario in Coupa',h:false},{t:'Review Scenario',h:true}],
+     tag:'AI + Human'},
+  7:{group:'src',title:'Negotiation Support — Award & Nego',
+     manual:['Review bid','Calculate cost','Award'],
+     agent:[{t:'Search market price',h:false},{t:'Calculate cost',h:false},{t:'Award',h:true}],
+     tag:'AI + Human'},
+  8:{group:'src',title:'Award Decision — Award & Nego',
+     manual:['Review award outcome','Approval submission','Approval process via Coupa workflow'],
+     agent:[{t:'Approval submission & approval process',h:true}],
+     tag:'Human'},
+  9:{group:'po',title:'Purchase Order Creation — Flip to PO  ★ Priority 3',
+     manual:['Search Event','Click act on award','Open PRs','Enrich PR (update supplier, Incoterm, need by date)','Submit PR to PO','Check PO in SAP','Submit PO in SAP'],
+     agent:[{t:'Search Event',h:true},{t:'Act on award',h:false},{t:'Open PRs',h:false},{t:'Enrich PR (update supplier, Incoterm, need by date)',h:false},{t:'Submit PR to PO',h:false},{t:'Check PO in SAP',h:true},{t:'Submit PO in SAP',h:true}],
+     tag:'AI + Human'},
+  10:{group:'po',title:'Delivery Monitoring — Expediting  ★ Priority 2',
+      manual:["Search Supplier's Response in Email","Check Supplier's Response in Excel",'Update in Excel','Upload Excel to expediting system'],
+      agent:[{t:"Read Supplier's Response in Email",h:false},{t:"Check Supplier's Response in Excel",h:false},{t:'Update in Excel',h:false},{t:'Upload Excel to expediting system',h:true}],
+      tag:'AI + Human'}
+};
+
+function buildManual(id,items){const ul=document.getElementById(id);ul.innerHTML='';items.forEach((txt,i)=>{const li=document.createElement('li');li.setAttribute('data-n',i+1);li.innerHTML='<span class="li-text">'+txt+'</span>';ul.appendChild(li);});}
+function buildAgent(id,items){const ul=document.getElementById(id);ul.innerHTML='';items.forEach((item,i)=>{const li=document.createElement('li');li.setAttribute('data-n',i+1);const badge=item.h?HU_B:AI_B;li.innerHTML='<span class="li-text">'+item.t+badge+'</span>';ul.appendChild(li);});}
+
+function showDetail(el,num){
+  const d=steps[num],g=d.group;
+  document.querySelectorAll('.sl-step').forEach(s=>s.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('sdp-'+g+'-title').textContent=d.title;
+  buildManual('sdp-'+g+'-manual',d.manual);
+  buildAgent('sdp-'+g+'-agent',d.agent);
+  const isHuman=d.tag==='Human';
+  document.getElementById('sdp-'+g+'-footer').innerHTML='<span class="sdp-badge '+(isHuman?'tag-human':'tag-ai')+'">'+d.tag+'</span>';
+  document.querySelectorAll('.step-detail-panel').forEach(p=>p.classList.remove('visible'));
+  document.getElementById('detail-'+g).classList.add('visible');
+}
+function closeDetail(g){document.getElementById('detail-'+g).classList.remove('visible');document.querySelectorAll('.sl-step').forEach(s=>s.classList.remove('active'));}
+function switchTab(id){const ids=['overview','basics','agents','orch','mvp'];document.querySelectorAll('.nav-btn').forEach((b,i)=>b.classList.toggle('active',ids[i]===id));document.querySelectorAll('.mobile-tab').forEach((b,i)=>b.classList.toggle('active',ids[i]===id));document.querySelectorAll('.section').forEach(s=>s.classList.toggle('active',s.id==='tab-'+id));}
+function toggleCard(el){el.classList.toggle('open');}
+function toggleAgent(el){el.classList.toggle('open');}
+</script>
+</body>
+</html>
