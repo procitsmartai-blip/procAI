@@ -196,6 +196,9 @@
   .pn-ok-text{color:#5DCAA5;font-weight:500}
   .pn-title{color:#e8e9ec;font-weight:700}
   .pn-action{color:#9499a8;font-size:12px;line-height:1.55;display:block;margin-top:3px}
+  .pn-bullets{list-style:none;margin-top:6px;display:flex;flex-direction:column;gap:4px;padding:0}
+  .pn-bullets li{font-size:12px;color:#9499a8;line-height:1.45;padding-left:14px;position:relative}
+  .pn-bullets li::before{content:'—';position:absolute;left:0;color:#5a6070;font-size:10px;top:1px}
   .pn-tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:6px;margin-left:5px;vertical-align:middle}
   .tag-prep{background:var(--amber-d);color:var(--amber-l);border:1px solid rgba(239,159,39,0.4)}
   .tag-fix{background:#1a1a2e;color:var(--purple-l);border:1px solid rgba(127,119,221,0.4)}
@@ -356,6 +359,8 @@
   :root.light .pn-ok-text{color:#0a6045;font-weight:500}
   :root.light .pn-title{color:#1a1814;font-weight:700}
   :root.light .pn-action{color:#5a5855}
+  :root.light .pn-bullets li{color:#5a5855}
+  :root.light .pn-bullets li::before{color:#9a9890}
   :root.light .tag-prep{background:#fdf3e3;color:#6b3800;border-color:rgba(239,159,39,0.5)}
   :root.light .tag-fix{background:#eeedfe;color:#2a2560;border-color:rgba(127,119,221,0.5)}
   /* header title */
@@ -583,21 +588,21 @@ const steps={
      agent:[{t:'User input — receive item request',h:true},{t:'Chatbot analyzes item needed and suggests PR details',h:false},{t:'Create PR',h:true}],
      tag:'AI + Human',
      policy:[
-       {ok:true, text:'Design is compliant — buyer creates the final PR, AI only suggests.'},
-       {ok:false, tag:'prep', text:'Use <strong>Claude for Business</strong> or <strong>enterprise Copilot</strong> as the chatbot engine.',
-        action:'Claude personal (claude.ai, ~$20/mo personal plan) is not permitted for company data under policy Sec A(1b). Claude for Business costs the same and keeps your data private. <strong>Action: request approval from Group IT this week</strong> — ask them to add Claude for Business to the approved tool list.'}
+       {ok:true, text:'Buyer creates the final PR — AI only suggests. Compliant as designed.'},
+       {ok:false, tag:'prep', text:'Use an approved AI tool as the chatbot engine.',
+        bullets:['Claude personal & free ChatGPT not permitted for company data','Switch to <strong>Claude for Business</strong> (claude.ai/team) — same cost, data stays private','Request Group IT approval this week']}
      ]},
   2:{group:'pr',title:'Contract & Sourcing Check — SOCO Filter  ★ Priority 1',
      manual:['Download SOCO','Check SOCO via Excel','Look up for purchasing group owner','Manual assign to purchasing group owner','Look up for available Contract','Look up for Previous PO','Grouping similar PRs / items to be 1 sourcing','Create sourcing'],
      agent:[{t:'Download SOCO and ask AI to check',h:true},{t:'Read SOCO → Material, Porg, Pgrup',h:false},{t:'Assign to right purchasing group',h:false},{t:'Read contract available',h:false},{t:'Propose contract available, then Tag PR',h:false},{t:'Read Historical PR & PO',h:false},{t:'Compile PR-Sourcing Suggestion & Prev Vendor',h:false},{t:'Create sourcing',h:true}],
      tag:'AI + Human',
      policy:[
-       {ok:false, tag:'prep', text:'<strong>Register P1 as a formal AI Initiative</strong> before development starts.',
-        action:'This step reads Coupa + SAP S/4 data = system integration = <strong>High Complexity</strong> classification. Required steps: (1) Fill in the AI Initiative Classification Record form. (2) Nominate a <strong>Business Project Owner</strong> — for Procurement function this is the <strong>Chief Procurement Officer</strong> per policy Appendix III. (3) Group IT nominates a <strong>Technical Project Owner</strong>. (4) Submit for approval to <strong>Head of SS & Digital Transformation</strong>. (5) Convene Group Review. Target: complete before any coding or Coupa API scoping begins.'},
-       {ok:false, tag:'prep', text:'<strong>Data classification check</strong> on SOCO file, contract values, and historical PO pricing.',
-        action:'These three data types are almost certainly <strong>Confidential</strong> under G-GCC-P-016. Check with GCC team — takes 1–2 days. Outcome will confirm which AI tool tier is allowed to read them. Enterprise Copilot and Claude for Business are typically approved for Confidential data.'},
-       {ok:false, tag:'fix', text:'<strong>Stop building this on Claude personal.</strong> Switch now.',
-        action:'The P1 scope document and any Coupa workflow data shared with Claude personal during scoping is already a policy breach (Sec A(1b)). <strong>Immediate action: move to Claude for Business (claude.ai/team)</strong> — request Group IT approval this week, migrate your scoping work across. No capability change, just the right plan.'}
+       {ok:false, tag:'prep', text:'Register P1 as a formal AI Initiative before any build starts.',
+        bullets:['Coupa + S/4 integration = <strong>High Complexity</strong> — formal registration required','BPO: <strong>Chief Procurement Officer</strong> (policy Appendix III)','TPO: nominated by Group IT','Approval: Head of SS & Digital Transformation → Group Review','Complete before any Coupa API scoping begins']},
+       {ok:false, tag:'prep', text:'Run a data classification check on SOCO, contracts, and PO history.',
+        bullets:['Classification level of these data types must be confirmed against <strong>G-GCC-P-016</strong>','Quick check with GCC team — takes 1–2 days','Output confirms which AI tool tier is approved to read them']},
+       {ok:false, tag:'fix', text:'Move off Claude personal immediately.',
+        bullets:['Using Claude personal for P1 scoping is a current policy breach','Switch to <strong>Claude for Business</strong> (claude.ai/team) today','No capability change — request Group IT approval this week']}
      ]},
   3:{group:'src',title:'Sourcing Creation — Event Creation',
      manual:['Search PR number','Open PRs','Create Sourcing','Input other PRs to sourcing'],
@@ -605,8 +610,8 @@ const steps={
      tag:'AI + Human',
      policy:[
        {ok:true, text:'Buyer checks the created event before it goes live — compliant as designed.'},
-       {ok:false, tag:'prep', text:'<strong>Include in the P1 initiative registration</strong> — do not register separately.',
-        action:'Steps 2, 3, and 4 all use the same Coupa integration and the same Business/Technical Project Owner. Bundle them into one AI Initiative submission. This saves time and avoids three separate approval processes for what is effectively one system build.'}
+       {ok:false, tag:'prep', text:'Bundle with P1 registration — do not register separately.',
+        bullets:['Steps 2, 3, and 4 share the same Coupa integration and project owners','One AI Initiative submission covers all three','Avoids three separate Group Review sessions']}
      ]},
   4:{group:'src',title:'Supplier Discovery — Event Creation',
      manual:['Search sourcing items','Search history PO','Choose supplier'],
@@ -614,35 +619,35 @@ const steps={
      tag:'AI + Human',
      policy:[
        {ok:true, text:'Final supplier choice stays with the buyer — compliant.'},
-       {ok:false, tag:'prep', text:'<strong>Clarify data access scope</strong> with Group IT before connecting PO history.',
-        action:'Historical PO data includes <strong>supplier names, prices paid, and contract volumes</strong> — this is Confidential. When registering the P1 initiative, explicitly list PO history as a data source so the data classification check covers it. Group IT will confirm which fields the AI agent is allowed to read vs. which must stay masked.'}
+       {ok:false, tag:'prep', text:'Clarify PO history data access scope with Group IT.',
+        bullets:['PO history includes supplier names, prices, and volumes — classification must be confirmed against G-GCC-P-016','List PO history as a data source in the P1 initiative registration','Group IT confirms which fields the AI may read vs. which stay masked']}
      ]},
   5:{group:'src',title:'Supplier Invitation — Event Creation',
      manual:['Open sourcing event','Invite supplier'],
      agent:[{t:'AI prepares supplier invite list',h:false},{t:'Buyer reviews and confirms list',h:true},{t:'System sends invitations',h:false}],
      tag:'AI + Human',
      policy:[
-       {ok:false, tag:'fix', text:'<strong>Design change already reflected above</strong> — buyer confirmation step added.',
-        action:'The original roadmap had AI sending invitations automatically with no human step (policy Sec A(5) requires human oversight at decision points). The step above now shows: AI prepares list → buyer approves → system sends. <strong>Make sure this buyer confirmation gate is built into the Coupa workflow, not just documented.</strong> It must be a hard stop, not advisory.'},
-       {ok:true, text:'With the confirmation gate in Coupa, this step is fully compliant.'}
+       {ok:false, tag:'fix', text:'Design updated — buyer confirmation step added.',
+        bullets:['Original: AI sent invitations automatically — no human step (policy breach)','Updated: AI prepares list → buyer approves → system sends','Build this as a <strong>hard stop in Coupa</strong>, not just a documented guideline']},
+       {ok:true, text:'With the Coupa confirmation gate built in, this step is fully compliant.'}
      ]},
   6:{group:'src',title:'Bid Evaluation — Award & Nego',
      manual:['Open sourcing event','Surrogate bid / Check supplier bid','Calculate lowest bid','Create scenario'],
      agent:[{t:'Review sourcing event',h:false},{t:'Create scenario in Coupa',h:false},{t:'Recommend Scenario in Coupa',h:false},{t:'Review Scenario',h:true}],
      tag:'AI + Human',
      policy:[
-       {ok:true, text:'Buyer reviews AI scenario before any award action — compliant.'},
-       {ok:false, tag:'prep', text:'<strong>Supplier bid prices</strong> must be in the data classification scope.',
-        action:'Bid prices from live sourcing events are among the most sensitive procurement data — <strong>Strictly Confidential</strong> in most cases. When doing the P1 data classification check, include bid evaluation data explicitly. The outcome will determine whether the AI model reads raw bid figures or only anonymised summaries. Do not assume — confirm with GCC before connecting the Coupa bid module to the AI.'}
+       {ok:true, text:'Buyer reviews the AI scenario before any award action — compliant.'},
+       {ok:false, tag:'prep', text:'Include bid pricing in the data classification check.',
+        bullets:['Live bid prices are likely your most sensitive sourcing data — confirm classification against G-GCC-P-016','Cover bid data explicitly in the P1 classification check','GCC confirms: raw figures vs. anonymised summaries for AI input','Do not connect the Coupa bid module before GCC sign-off']}
      ]},
   7:{group:'src',title:'Negotiation Support — Award & Nego',
      manual:['Review bid','Calculate cost','Award'],
      agent:[{t:'Search market price',h:false},{t:'Calculate cost',h:false},{t:'Award',h:true}],
      tag:'AI + Human',
      policy:[
-       {ok:true, text:'Award stays with the buyer — compliant.'},
-       {ok:false, tag:'prep', text:'<strong>External market price search</strong> — confirm the data source is approved.',
-        action:'If the AI searches external price databases or third-party market data APIs, those vendors need to meet the same data handling requirements as any AI vendor (Sec 26: NDA, data residency, no training on our data). <strong>When scoping the market price feature, list the data provider</strong> — Group IT will confirm if it needs a separate vendor assessment or if it falls under an existing enterprise agreement.'}
+       {ok:true, text:'Award decision stays with the buyer — compliant.'},
+       {ok:false, tag:'prep', text:'Confirm the external market price data source is approved.',
+        bullets:['Third-party price databases are vendors under policy Sec 26','Requires NDA + data residency confirmation + no model training on our data','List the data provider in the initiative registration — Group IT will advise']}
      ]},
   8:{group:'src',title:'Award Decision — Award & Nego',
      manual:['Review award outcome','Approval submission','Approval process via Coupa workflow'],
@@ -650,16 +655,16 @@ const steps={
      tag:'Human',
      policy:[
        {ok:true, text:'Fully human — no AI in the award or approval loop. Compliant as designed.'},
-       {ok:true, text:'Coupa approval workflow unchanged. No action needed.'}
+       {ok:true, text:'Coupa approval workflow unchanged. Nothing to do here.'}
      ]},
   9:{group:'po',title:'Purchase Order Creation — Flip to PO  ★ Priority 3',
      manual:['Search Event','Click act on award','Open PRs','Enrich PR (update supplier, Incoterm, need by date)','Submit PR to PO','Check PO in SAP','Submit PO in SAP'],
      agent:[{t:'Search Event',h:true},{t:'Act on award',h:false},{t:'Open PRs',h:false},{t:'Enrich PR (update supplier, Incoterm, need by date)',h:false},{t:'Submit PR to PO',h:false},{t:'Check PO in SAP',h:true},{t:'Submit PO in SAP',h:true}],
      tag:'AI + Human',
      policy:[
-       {ok:true, text:'Final PO check and SAP submission are human steps — compliant.'},
-       {ok:false, tag:'prep', text:'<strong>Register P3 together with P1 and P2</strong> as one bundle.',
-        action:'P3 touches Coupa + SAP S/4 = same High Complexity classification as P1. <strong>Register all three priorities (P1, P2, P3) as a single AI Initiative portfolio</strong> under one Business Project Owner (Chief Procurement Officer) and one Technical Project Owner (Group IT). One submission, one Group Review session, three builds approved. Much faster than three separate processes.'}
+       {ok:true, text:'PO check and SAP submission are human steps — compliant.'},
+       {ok:false, tag:'prep', text:'Register P1, P2, and P3 together as one initiative portfolio.',
+        bullets:['All three touch Coupa + S/4 = same High Complexity classification','One BPO (Chief Procurement Officer) + one TPO (Group IT) covers all three','One submission, one Group Review, three builds approved']}
      ]},
   10:{group:'po',title:'Delivery Monitoring — Expediting  ★ Priority 2',
       manual:["Search Supplier's Response in Email","Check Supplier's Response in Excel",'Update in Excel','Upload Excel to expediting system'],
@@ -667,8 +672,8 @@ const steps={
       tag:'AI + Human',
       policy:[
         {ok:true, text:'Final upload to expediting system is human-controlled — compliant.'},
-        {ok:false, tag:'prep', text:'<strong>Supplier email reading</strong> needs a specific integration sign-off from Group IT.',
-         action:'AI reading incoming supplier emails requires connecting to the corporate mailbox (M365/Exchange). This is not a standard Coupa integration — it needs <strong>Group IT to approve the mailbox connector</strong> and confirm that email content (which may include pricing, delivery commitments, and commercial terms) is within the approved data scope. <strong>Raise this as a specific item in the P1/P2/P3 initiative registration</strong> — do not build the email connector before it is cleared.'}
+        {ok:false, tag:'prep', text:'Get Group IT sign-off on the M365 mailbox connector.',
+         bullets:['AI reading supplier emails requires M365/Exchange access — not standard Coupa','Needs separate Group IT approval before build','Add as a line item in the P1/P2/P3 initiative registration']}
       ]}
 };
 
@@ -693,7 +698,11 @@ function showDetail(el,num){
         html+='<div class="pn-item"><div class="pn-ok">✓</div><div class="pn-text pn-ok-text">'+p.text+'</div></div>';
       } else {
         const tagHtml=p.tag?'<span class="pn-tag tag-'+p.tag+'">'+(p.tag==='prep'?'to do':'update')+'</span>':'';
-        html+='<div class="pn-item"><div class="pn-num">'+(i+1)+'</div><div class="pn-text"><span class="pn-title">'+p.text+'</span>'+tagHtml+(p.action?'<br><span class="pn-action">'+p.action+'</span>':'')+'</div></div>';
+        let bulletHtml='';
+        if(p.bullets&&p.bullets.length){
+          bulletHtml='<ul class="pn-bullets">'+(p.bullets.map(b=>'<li>'+b+'</li>').join(''))+'</ul>';
+        }
+        html+='<div class="pn-item"><div class="pn-num">'+(i+1)+'</div><div class="pn-text"><span class="pn-title">'+p.text+'</span>'+tagHtml+bulletHtml+'</div></div>';
       }
     });
     html+='</div></div>';
