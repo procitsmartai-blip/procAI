@@ -183,7 +183,10 @@
   .pb-body{flex:1}
   .pb-title{font-size:13px;font-weight:700;color:var(--teal-l);margin-bottom:3px}
   .pb-text{font-size:12px;color:var(--text2);line-height:1.55}
-  .pb-action{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-d);border:1px solid rgba(29,158,117,0.4);border-radius:6px;padding:3px 9px}
+  .pb-action{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-d);border:1px solid rgba(29,158,117,0.4);border-radius:6px;padding:3px 9px}
+  .pb-bullets{list-style:none;margin:10px 0 4px;display:flex;flex-direction:column;gap:7px;padding:0}
+  .pb-bullets li{font-size:12px;color:var(--text2);line-height:1.5;padding-left:16px;position:relative}
+  .pb-bullets li::before{content:'→';position:absolute;left:0;color:var(--teal);font-size:11px;font-weight:700;top:0px}
   .pb-strong{color:var(--teal-l);font-weight:700}
   .policy-note{background:#141a10;border-top:1px solid var(--border);padding:12px 16px}
   .pn-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:6px}
@@ -349,6 +352,8 @@
   :root.light .pb-title{color:#0F6E56}
   :root.light .pb-text{color:#3a3835}
   :root.light .pb-action{background:#d4f0e6;color:#0F6E56;border-color:rgba(29,158,117,0.4)}
+  :root.light .pb-bullets li{color:#3a3835}
+  :root.light .pb-bullets li::before{color:#0F6E56}
   :root.light .pb-strong{color:#0F6E56}
   :root.light .policy-note{background:#f0faf6;border-top-color:rgba(0,0,0,0.07)}
   :root.light .pn-label{color:#0F6E56}
@@ -508,9 +513,14 @@
       <div class="policy-banner">
         <span class="pb-icon">📋</span>
         <div class="pb-body">
-          <div class="pb-title">Policy readiness — a few things to sort before we build</div>
-          <div class="pb-text">G-GCC-P-018 is in effect from 29 April 2026. Each step below includes a short checklist of what we need to line up before development starts — nothing that changes the roadmap direction, just the right groundwork. <strong class="pb-strong">Development note:</strong> this roadmap was built on Claude personal. Switch to <strong class="pb-strong">Claude for Business</strong> (claude.ai/team) — same experience, Group IT-approved, data stays private.</div>
-          <span class="pb-action">Click any step below to see its checklist ↓</span>
+          <div class="pb-title">This roadmap is ready to build — with three things to sort first.</div>
+          <div class="pb-text">G-GCC-P-018 (AI Policy) is live from 29 April 2026. The direction and priorities are unchanged — we just need the right groundwork in place before development starts.</div>
+          <ul class="pb-bullets">
+            <li><strong class="pb-strong">Register P1, P2, P3 as AI Initiatives with Group IT</strong> — required before any Coupa or S/4 integration work begins.</li>
+            <li><strong class="pb-strong">Run a data classification check</strong> on SOCO, PO history, contracts, and bid data against G-GCC-P-016 — confirms what the AI is allowed to read.</li>
+            <li><strong class="pb-strong">Switch this roadmap's AI tool from Claude personal to Claude for Business</strong> — same capability, Group IT-approved, data stays private. Request approval this week.</li>
+          </ul>
+          <span class="pb-action">Click any step below for its specific checklist ↓</span>
         </div>
       </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
