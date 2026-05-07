@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
   :root{--bg:#0e0f11;--bg2:#16181c;--bg3:#1e2026;--border:rgba(255,255,255,0.07);--border2:rgba(255,255,255,0.14);--text:#e8e9ec;--text2:#9499a8;--text3:#5a6070;--teal:#1D9E75;--teal-l:#5DCAA5;--teal-d:#0a2820;--teal-b:#0F6E56;--blue:#378ADD;--blue-l:#85B7EB;--blue-d:#0d1f35;--blue-b:#185FA5;--purple:#7F77DD;--purple-l:#AFA9EC;--purple-d:#1a1530;--purple-b:#534AB7;--amber:#EF9F27;--amber-l:#FAC775;--amber-d:#2a1a08;--amber-b:#854F0B;--coral:#D85A30;--coral-l:#F0997B;--coral-d:#2d1008;--red:#E24B4A}
+  :root.light{--bg:#f5f4f1;--bg2:#ffffff;--bg3:#eceae4;--border:rgba(0,0,0,0.09);--border2:rgba(0,0,0,0.16);--text:#1a1814;--text2:#5a5855;--text3:#9a9890;--teal-l:#0a6045;--teal-d:#d4f0e6;--blue-l:#185FA5;--blue-d:#daeaf8;--purple-l:#534AB7;--purple-d:#eeedfe;--amber-l:#6b3a08;--amber-d:#fdf3e3;--coral-l:#b03010;--coral-d:#fce9e2}
   *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{font-family:'Lato',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6;font-size:15px}
@@ -176,6 +177,199 @@
   .mobile-tab.active{background:var(--teal-d);border-color:var(--teal);color:var(--teal-l)}
   @media(max-width:720px){.sidebar{display:none}.content{padding:20px 16px}.header{padding:16px}.mobile-tabs{display:flex}.sdp-grid{grid-template-columns:1fr}.sdp-col:first-child{border-right:none;border-bottom:1px solid var(--border)}}
   @media(max-width:480px){.ov-tag{display:none}.cmp-table th,.cmp-table td{padding:10px;font-size:13px}}
+  /* POLICY NOTES */
+  .policy-banner{background:#1a1f12;border:1px solid rgba(29,158,117,0.35);border-radius:10px;padding:12px 16px;margin-bottom:18px;display:flex;align-items:flex-start;gap:10px}
+  .pb-icon{font-size:16px;flex-shrink:0;margin-top:1px}
+  .pb-body{flex:1}
+  .pb-title{font-size:13px;font-weight:700;color:var(--teal-l);margin-bottom:3px}
+  .pb-text{font-size:12px;color:var(--text2);line-height:1.55}
+  .pb-action{display:inline-block;margin-top:6px;font-size:11px;font-weight:700;color:var(--teal);background:var(--teal-d);border:1px solid rgba(29,158,117,0.4);border-radius:6px;padding:3px 9px}
+  .pb-strong{color:var(--teal-l);font-weight:700}
+  .policy-note{background:#141a10;border-top:1px solid var(--border);padding:12px 16px}
+  .pn-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--teal);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+  .pn-label::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--teal);flex-shrink:0}
+  .pn-items{display:flex;flex-direction:column;gap:6px}
+  .pn-item{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:var(--text2);line-height:1.5}
+  .pn-num{min-width:20px;height:20px;border-radius:50%;background:var(--teal-d);color:var(--teal-l);border:1px solid var(--teal-b);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+  .pn-ok{min-width:20px;height:20px;border-radius:50%;background:#0d2a1a;color:#5DCAA5;border:1px solid #0F6E56;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px}
+  .pn-text{flex:1}
+  .pn-ok-text{color:#5DCAA5;font-weight:500}
+  .pn-title{color:#e8e9ec;font-weight:700}
+  .pn-action{color:#9499a8;font-size:12px;line-height:1.55;display:block;margin-top:3px}
+  .pn-tag{display:inline-block;font-size:10px;font-weight:700;padding:1px 7px;border-radius:6px;margin-left:5px;vertical-align:middle}
+  .tag-prep{background:var(--amber-d);color:var(--amber-l);border:1px solid rgba(239,159,39,0.4)}
+  .tag-fix{background:#1a1a2e;color:var(--purple-l);border:1px solid rgba(127,119,221,0.4)}
+  .tag-good{background:var(--teal-d);color:var(--teal-l);border:1px solid rgba(29,158,117,0.4)}
+
+  /* LIGHT MODE OVERRIDES */
+  :root.light body{background:var(--bg);color:var(--text)}
+  :root.light .header{background:#ffffff;border-bottom-color:rgba(0,0,0,0.1)}
+  :root.light .sidebar{background:#f5f4f1;border-right-color:rgba(0,0,0,0.09)}
+  :root.light .mobile-tabs{background:#ffffff}
+  :root.light .footer{color:var(--text3);border-top-color:rgba(0,0,0,0.09)}
+  :root.light .nav-btn{color:#5a5855}
+  :root.light .nav-btn:hover,:root.light .nav-btn.active{background:#eceae4;color:#1a1814}
+  :root.light .sidebar-label{color:#9a9890}
+  :root.light .section-title{color:#1a1814}
+  :root.light .section-desc{color:#5a5855}
+  :root.light .sec-label{color:#9a9890}
+  /* overview rows */
+  :root.light .ov-row.lv1{background:#daeaf8;border-color:#378ADD}
+  :root.light .ov-row.lv1 .ov-num{background:#378ADD}
+  :root.light .ov-row.lv1 .ov-title{color:#0d3a6e;font-weight:900}
+  :root.light .ov-row.lv1 .ov-desc{color:#185FA5}
+  :root.light .ov-row.lv1 .ov-tag{background:#378ADD;color:#ffffff}
+  :root.light .ov-row.lv2{background:#eeedfe;border-color:#7F77DD}
+  :root.light .ov-row.lv2 .ov-num{background:#7F77DD}
+  :root.light .ov-row.lv2 .ov-title{color:#2a2560;font-weight:900}
+  :root.light .ov-row.lv2 .ov-desc{color:#534AB7}
+  :root.light .ov-row.lv2 .ov-tag{background:#7F77DD;color:#ffffff}
+  :root.light .ov-row.lv3{background:#fdf3e3;border-color:#EF9F27}
+  :root.light .ov-row.lv3 .ov-num{background:#EF9F27}
+  :root.light .ov-row.lv3 .ov-title{color:#4a2800;font-weight:900}
+  :root.light .ov-row.lv3 .ov-desc{color:#854F0B}
+  :root.light .ov-row.lv3 .ov-tag{background:#EF9F27;color:#ffffff}
+  :root.light .ov-row.lv4{background:#d4f0e6;border-color:#1D9E75}
+  :root.light .ov-row.lv4 .ov-num{background:#1D9E75}
+  :root.light .ov-row.lv4 .ov-title{color:#062d1c;font-weight:900}
+  :root.light .ov-row.lv4 .ov-desc{color:#0F6E56}
+  :root.light .ov-row.lv4 .ov-tag{background:#1D9E75;color:#ffffff}
+  /* comparison table */
+  :root.light .cmp-wrap{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .cmp-table th{background:#eceae4;color:#1a1814;border-bottom-color:rgba(0,0,0,0.15)}
+  :root.light .cmp-table td{color:#5a5855;border-bottom-color:rgba(0,0,0,0.07)}
+  :root.light .cmp-table td:first-child{color:#1a1814}
+  :root.light .cmp-table tr:hover td{background:#f5f4f1}
+  :root.light .r-best{color:#0a6045}
+  :root.light .r-good{color:#185FA5}
+  :root.light .r-ok{color:#854F0B}
+  :root.light .r-no{color:#c0302f}
+  /* tool cards */
+  :root.light .tool-card{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .tool-name{color:#1a1814}
+  :root.light .tool-vendor{background:#eceae4;color:#5a5855}
+  :root.light .cat-label{color:#9a9890}
+  :root.light .cat-content,:root.light .pro-list li,:root.light .con-list li{color:#5a5855}
+  :root.light .dot-pro{background:#d4f0e6;color:#0a6045;border-color:#1D9E75}
+  :root.light .dot-con{background:#fce9e2;color:#9a2010;border-color:#D85A30}
+  :root.light .fee-tag{background:#fdf3e3;color:#6b3800;border-color:#EF9F27}
+  :root.light .tool-divider{background:rgba(0,0,0,0.08)}
+  /* cards */
+  :root.light .card{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .card:hover{background:#f5f4f1;border-color:rgba(0,0,0,0.18)}
+  :root.light .card.open{border-color:#1D9E75}
+  :root.light .card-title{color:#1a1814}
+  :root.light .card-sub{color:#9a9890}
+  :root.light .card-body{border-top-color:rgba(0,0,0,0.08)}
+  :root.light .card-body p{color:#5a5855}
+  :root.light .step-pill{background:#eceae4;border-color:rgba(0,0,0,0.14);color:#5a5855}
+  :root.light .step-arr{color:#9a9890}
+  /* agent cards */
+  :root.light .prompt-card{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .prompt-scenario{color:#1a1814}
+  :root.light .prompt-label{color:#9a9890}
+  :root.light .prompt-text{background:#f5f4f1;color:#1a1814;border-left-color:#1D9E75}
+  :root.light .agent-step-pill{background:#eceae4;border-color:#1D9E75;color:#0a6045}
+  :root.light .agent-card.ac-teal{background:#d4f0e6;border-color:#1D9E75}
+  :root.light .agent-card.ac-blue{background:#daeaf8;border-color:#378ADD}
+  :root.light .agent-card.ac-purple{background:#eeedfe;border-color:#7F77DD}
+  :root.light .agent-card.ac-amber{background:#fdf3e3;border-color:#EF9F27}
+  :root.light .ac-teal .agent-card-name{color:#062d1c}
+  :root.light .ac-blue .agent-card-name{color:#0d3a6e}
+  :root.light .ac-purple .agent-card-name{color:#2a2560}
+  :root.light .ac-amber .agent-card-name{color:#4a2800}
+  :root.light .agent-card-role{color:#5a5855}
+  :root.light .agent-card-body{color:#5a5855}
+  :root.light .agent-expand{color:#5a5855}
+  :root.light .ac-teal .agent-expand{border-top-color:rgba(29,158,117,.3)}
+  :root.light .ac-blue .agent-expand{border-top-color:rgba(55,138,221,.3)}
+  :root.light .ac-purple .agent-expand{border-top-color:rgba(127,119,221,.3)}
+  :root.light .ac-amber .agent-expand{border-top-color:rgba(239,159,39,.3)}
+  :root.light .ac-teal .agent-divider{background:#1D9E75}
+  :root.light .ac-blue .agent-divider{background:#378ADD}
+  :root.light .ac-purple .agent-divider{background:#7F77DD}
+  :root.light .ac-amber .agent-divider{background:#EF9F27}
+  /* orchestration */
+  :root.light .orch-wrap{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .orch-main-box{background:#d4f0e6;border-color:#1D9E75;color:#062d1c}
+  :root.light .orch-main-box .sub{color:#0a6045}
+  :root.light .orch-human-box{background:#eeedfe;border-color:#7F77DD;color:#2a2560}
+  :root.light .orch-human-box .sub{color:#534AB7}
+  :root.light .orch-done-box{background:#eceae4;border-color:#1D9E75;color:#062d1c}
+  :root.light .orch-arr{color:#9a9890}
+  :root.light .orch-worker{background:#eceae4;border-color:rgba(0,0,0,0.14);color:#1a1814}
+  :root.light .mini-box{background:#f5f4f1}
+  :root.light .mini-title{color:#1a1814}
+  :root.light .mini-desc{color:#5a5855}
+  :root.light .orch-example{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .orch-example:hover{border-color:rgba(0,0,0,0.2)}
+  :root.light .orch-example.open{border-color:#1D9E75}
+  :root.light .orch-ex-title{color:#1a1814}
+  :root.light .orch-ex-sub{color:#5a5855}
+  :root.light .orch-ex-body{border-top-color:rgba(0,0,0,0.08)}
+  :root.light .orch-ex-body *{color:#5a5855}
+  /* swimlanes */
+  :root.light .sl-pr{background:#c8eadc;border-color:#1D9E75;color:#062d1c}
+  :root.light .sl-src{background:#c5dcf5;border-color:#378ADD;color:#0d3a6e}
+  :root.light .sl-po{background:#fce8c2;border-color:#EF9F27;color:#4a2800}
+  :root.light .swimlane-steps{background:#f0eeea;border-color:rgba(0,0,0,0.12)}
+  :root.light .sl-step{background:#ffffff;border-color:rgba(0,0,0,0.12)}
+  :root.light .sl-step:hover{border-color:#1D9E75}
+  :root.light .sl-step.active{background:#d4f0e6;border-color:#1D9E75}
+  :root.light .sl-step.prio{background:#fff9ef;border-color:#EF9F27}
+  :root.light .sl-step.prio.active{background:#fce8c2}
+  :root.light .sl-subprocess{color:#5a5855}
+  :root.light .sl-step-title{color:#1a1814}
+  :root.light .sl-effort{color:#c0302f}
+  :root.light .sl-arr{color:#9a9890}
+  :root.light .sl-prio-badge{background:#fdf3e3;color:#6b3800;border-color:#EF9F27}
+  :root.light .tag-ai{background:#d4f0e6;color:#062d1c;border-color:#1D9E75}
+  :root.light .tag-human{background:#eeedfe;color:#2a2560;border-color:#7F77DD}
+  :root.light .badge-ai{background:#d4f0e6;color:#062d1c;border-color:#1D9E75}
+  :root.light .badge-human{background:#eeedfe;color:#2a2560;border-color:#7F77DD}
+  /* detail panel */
+  :root.light .step-detail-panel{background:#ffffff;border-color:rgba(0,0,0,0.1)}
+  :root.light .sdp-head{border-bottom-color:rgba(0,0,0,0.08)}
+  :root.light .sdp-title{color:#1a1814}
+  :root.light .sdp-close{color:#9a9890}
+  :root.light .sdp-close:hover{color:#1a1814}
+  :root.light .sdp-col{padding:14px 16px}
+  :root.light .sdp-col:first-child{border-right-color:rgba(0,0,0,0.08)}
+  :root.light .sdp-col-label{color:#9a9890}
+  :root.light .sdp-task-list li{color:#5a5855}
+  :root.light .sdp-task-list.manual li::before{background:#fce9e2;color:#9a2010;border-color:#D85A30}
+  :root.light .sdp-task-list.agent li::before{background:#d4f0e6;color:#0a6045;border-color:#1D9E75}
+  :root.light .sdp-footer{border-top-color:rgba(0,0,0,0.08)}
+  :root.light .sdp-badge{color:#1a1814}
+  /* policy notes */
+  :root.light .policy-banner{background:#e6f5ef;border-color:rgba(29,158,117,0.4)}
+  :root.light .pb-title{color:#0F6E56}
+  :root.light .pb-text{color:#3a3835}
+  :root.light .pb-action{background:#d4f0e6;color:#0F6E56;border-color:rgba(29,158,117,0.4)}
+  :root.light .pb-strong{color:#0F6E56}
+  :root.light .policy-note{background:#f0faf6;border-top-color:rgba(0,0,0,0.07)}
+  :root.light .pn-label{color:#0F6E56}
+  :root.light .pn-label::before{background:#1D9E75}
+  :root.light .pn-num{background:#d4f0e6;color:#0a6045;border-color:#0F6E56}
+  :root.light .pn-ok{background:#d4f0e6;color:#0a6045;border-color:#0F6E56}
+  :root.light .pn-text{color:#3a3835}
+  :root.light .pn-ok-text{color:#0a6045;font-weight:500}
+  :root.light .pn-title{color:#1a1814;font-weight:700}
+  :root.light .pn-action{color:#5a5855}
+  :root.light .tag-prep{background:#fdf3e3;color:#6b3800;border-color:rgba(239,159,39,0.5)}
+  :root.light .tag-fix{background:#eeedfe;color:#2a2560;border-color:rgba(127,119,221,0.5)}
+  /* header title */
+  :root.light .header-title{color:#1a1814}
+  :root.light .header-sub{color:#9a9890}
+  :root.light .header-badge{background:#d4f0e6;border-color:#1D9E75}
+  /* TOGGLE BUTTON */
+  .theme-toggle{display:flex;align-items:center;gap:8px;margin-left:auto;padding:7px 14px;border-radius:20px;border:1px solid var(--border2);background:var(--bg3);cursor:pointer;font-family:'Lato',sans-serif;font-size:13px;font-weight:700;color:var(--text2);transition:all .18s;flex-shrink:0}
+  .theme-toggle:hover{color:var(--text);border-color:var(--teal);background:var(--teal-d)}
+  .toggle-track{width:34px;height:18px;border-radius:9px;background:var(--bg);border:1.5px solid var(--border2);position:relative;transition:background .2s,border-color .2s;flex-shrink:0}
+  .toggle-thumb{width:12px;height:12px;border-radius:50%;background:var(--text3);position:absolute;top:2px;left:2px;transition:transform .2s,background .2s}
+  :root.light .toggle-track{background:#d4f0e6;border-color:var(--teal)}
+  :root.light .toggle-thumb{background:var(--teal);transform:translateX(16px)}
+
 </style>
 </head>
 <body>
@@ -185,6 +379,10 @@
     <div class="header-title">AI for Procurement — Interactive Roadmap</div>
     <div class="header-sub">Level 1 → Level 2 → Level 3 → Level 4 MVP</div>
   </div>
+  <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Toggle light / night mode">
+    <div class="toggle-track"><div class="toggle-thumb"></div></div>
+    <span id="themeLabel">Day mode</span>
+  </button>
 </header>
 <div class="mobile-tabs">
   <button class="mobile-tab active" onclick="switchTab('overview')">Overview</button>
@@ -302,6 +500,14 @@
     <div class="section" id="tab-mvp">
       <div class="section-title">Level 4 · Procurement MVP</div>
       <div class="section-desc">Full S2P process map — click any step to compare current manual process vs AI agent tasks.</div>
+      <div class="policy-banner">
+        <span class="pb-icon">📋</span>
+        <div class="pb-body">
+          <div class="pb-title">Policy readiness — a few things to sort before we build</div>
+          <div class="pb-text">G-GCC-P-018 is in effect from 29 April 2026. Each step below includes a short checklist of what we need to line up before development starts — nothing that changes the roadmap direction, just the right groundwork. <strong class="pb-strong">Development note:</strong> this roadmap was built on Claude personal. Switch to <strong class="pb-strong">Claude for Business</strong> (claude.ai/team) — same experience, Group IT-approved, data stays private.</div>
+          <span class="pb-action">Click any step below to see its checklist ↓</span>
+        </div>
+      </div>
       <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
         <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="width:10px;height:10px;border-radius:50%;background:var(--amber);display:inline-block;"></span>Priority</div>
         <div style="display:flex;align-items:center;gap:5px;font-size:13px;color:var(--text2);font-weight:700;"><span style="font-size:11px;padding:2px 8px;border-radius:6px;background:var(--teal-d);color:var(--teal-l);border:1.5px solid var(--teal);font-weight:900;">AI</span>AI step</div>
@@ -320,6 +526,7 @@
       <div class="step-detail-panel" id="detail-pr">
         <div class="sdp-head"><div class="sdp-title" id="sdp-pr-title"></div><button class="sdp-close" onclick="closeDetail('pr')">✕</button></div>
         <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-pr-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-pr-agent"></ul></div></div>
+        <div id="pn-pr"></div>
         <div class="sdp-footer" id="sdp-pr-footer"></div>
       </div>
 
@@ -342,6 +549,7 @@
       <div class="step-detail-panel" id="detail-src">
         <div class="sdp-head"><div class="sdp-title" id="sdp-src-title"></div><button class="sdp-close" onclick="closeDetail('src')">✕</button></div>
         <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-src-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-src-agent"></ul></div></div>
+        <div id="pn-src"></div>
         <div class="sdp-footer" id="sdp-src-footer"></div>
       </div>
 
@@ -356,6 +564,7 @@
       <div class="step-detail-panel" id="detail-po">
         <div class="sdp-head"><div class="sdp-title" id="sdp-po-title"></div><button class="sdp-close" onclick="closeDetail('po')">✕</button></div>
         <div class="sdp-grid"><div class="sdp-col"><div class="sdp-col-label">Current manual process</div><ul class="sdp-task-list manual" id="sdp-po-manual"></ul></div><div class="sdp-col"><div class="sdp-col-label">AI agent tasks</div><ul class="sdp-task-list agent" id="sdp-po-agent"></ul></div></div>
+        <div id="pn-po"></div>
         <div class="sdp-footer" id="sdp-po-footer"></div>
       </div>
     </div>
@@ -372,43 +581,95 @@ const steps={
   1:{group:'pr',title:'Guided Buying — PR Creation',
      manual:['Receive item request','Consult w/ Procurement how to create the PR','Create PR'],
      agent:[{t:'User input — receive item request',h:true},{t:'Chatbot analyzes item needed and suggests PR details',h:false},{t:'Create PR',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Design is compliant — buyer creates the final PR, AI only suggests.'},
+       {ok:false, tag:'prep', text:'Use <strong>Claude for Business</strong> or <strong>enterprise Copilot</strong> as the chatbot engine.',
+        action:'Claude personal (claude.ai, ~$20/mo personal plan) is not permitted for company data under policy Sec A(1b). Claude for Business costs the same and keeps your data private. <strong>Action: request approval from Group IT this week</strong> — ask them to add Claude for Business to the approved tool list.'}
+     ]},
   2:{group:'pr',title:'Contract & Sourcing Check — SOCO Filter  ★ Priority 1',
      manual:['Download SOCO','Check SOCO via Excel','Look up for purchasing group owner','Manual assign to purchasing group owner','Look up for available Contract','Look up for Previous PO','Grouping similar PRs / items to be 1 sourcing','Create sourcing'],
      agent:[{t:'Download SOCO and ask AI to check',h:true},{t:'Read SOCO → Material, Porg, Pgrup',h:false},{t:'Assign to right purchasing group',h:false},{t:'Read contract available',h:false},{t:'Propose contract available, then Tag PR',h:false},{t:'Read Historical PR & PO',h:false},{t:'Compile PR-Sourcing Suggestion & Prev Vendor',h:false},{t:'Create sourcing',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:false, tag:'prep', text:'<strong>Register P1 as a formal AI Initiative</strong> before development starts.',
+        action:'This step reads Coupa + SAP S/4 data = system integration = <strong>High Complexity</strong> classification. Required steps: (1) Fill in the AI Initiative Classification Record form. (2) Nominate a <strong>Business Project Owner</strong> — for Procurement function this is the <strong>Chief Procurement Officer</strong> per policy Appendix III. (3) Group IT nominates a <strong>Technical Project Owner</strong>. (4) Submit for approval to <strong>Head of SS & Digital Transformation</strong>. (5) Convene Group Review. Target: complete before any coding or Coupa API scoping begins.'},
+       {ok:false, tag:'prep', text:'<strong>Data classification check</strong> on SOCO file, contract values, and historical PO pricing.',
+        action:'These three data types are almost certainly <strong>Confidential</strong> under G-GCC-P-016. Check with GCC team — takes 1–2 days. Outcome will confirm which AI tool tier is allowed to read them. Enterprise Copilot and Claude for Business are typically approved for Confidential data.'},
+       {ok:false, tag:'fix', text:'<strong>Stop building this on Claude personal.</strong> Switch now.',
+        action:'The P1 scope document and any Coupa workflow data shared with Claude personal during scoping is already a policy breach (Sec A(1b)). <strong>Immediate action: move to Claude for Business (claude.ai/team)</strong> — request Group IT approval this week, migrate your scoping work across. No capability change, just the right plan.'}
+     ]},
   3:{group:'src',title:'Sourcing Creation — Event Creation',
      manual:['Search PR number','Open PRs','Create Sourcing','Input other PRs to sourcing'],
      agent:[{t:'Take result from SOCO filter',h:false},{t:'Create sourcing event from similar PR',h:false},{t:'Check Created Event',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Buyer checks the created event before it goes live — compliant as designed.'},
+       {ok:false, tag:'prep', text:'<strong>Include in the P1 initiative registration</strong> — do not register separately.',
+        action:'Steps 2, 3, and 4 all use the same Coupa integration and the same Business/Technical Project Owner. Bundle them into one AI Initiative submission. This saves time and avoids three separate approval processes for what is effectively one system build.'}
+     ]},
   4:{group:'src',title:'Supplier Discovery — Event Creation',
      manual:['Search sourcing items','Search history PO','Choose supplier'],
      agent:[{t:'Search history PO',h:false},{t:'Suggest supplier',h:false},{t:'Choose Supplier',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Final supplier choice stays with the buyer — compliant.'},
+       {ok:false, tag:'prep', text:'<strong>Clarify data access scope</strong> with Group IT before connecting PO history.',
+        action:'Historical PO data includes <strong>supplier names, prices paid, and contract volumes</strong> — this is Confidential. When registering the P1 initiative, explicitly list PO history as a data source so the data classification check covers it. Group IT will confirm which fields the AI agent is allowed to read vs. which must stay masked.'}
+     ]},
   5:{group:'src',title:'Supplier Invitation — Event Creation',
      manual:['Open sourcing event','Invite supplier'],
-     agent:[{t:'Invite supplier to sourcing event',h:false}],
-     tag:'AI'},
+     agent:[{t:'AI prepares supplier invite list',h:false},{t:'Buyer reviews and confirms list',h:true},{t:'System sends invitations',h:false}],
+     tag:'AI + Human',
+     policy:[
+       {ok:false, tag:'fix', text:'<strong>Design change already reflected above</strong> — buyer confirmation step added.',
+        action:'The original roadmap had AI sending invitations automatically with no human step (policy Sec A(5) requires human oversight at decision points). The step above now shows: AI prepares list → buyer approves → system sends. <strong>Make sure this buyer confirmation gate is built into the Coupa workflow, not just documented.</strong> It must be a hard stop, not advisory.'},
+       {ok:true, text:'With the confirmation gate in Coupa, this step is fully compliant.'}
+     ]},
   6:{group:'src',title:'Bid Evaluation — Award & Nego',
      manual:['Open sourcing event','Surrogate bid / Check supplier bid','Calculate lowest bid','Create scenario'],
      agent:[{t:'Review sourcing event',h:false},{t:'Create scenario in Coupa',h:false},{t:'Recommend Scenario in Coupa',h:false},{t:'Review Scenario',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Buyer reviews AI scenario before any award action — compliant.'},
+       {ok:false, tag:'prep', text:'<strong>Supplier bid prices</strong> must be in the data classification scope.',
+        action:'Bid prices from live sourcing events are among the most sensitive procurement data — <strong>Strictly Confidential</strong> in most cases. When doing the P1 data classification check, include bid evaluation data explicitly. The outcome will determine whether the AI model reads raw bid figures or only anonymised summaries. Do not assume — confirm with GCC before connecting the Coupa bid module to the AI.'}
+     ]},
   7:{group:'src',title:'Negotiation Support — Award & Nego',
      manual:['Review bid','Calculate cost','Award'],
      agent:[{t:'Search market price',h:false},{t:'Calculate cost',h:false},{t:'Award',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Award stays with the buyer — compliant.'},
+       {ok:false, tag:'prep', text:'<strong>External market price search</strong> — confirm the data source is approved.',
+        action:'If the AI searches external price databases or third-party market data APIs, those vendors need to meet the same data handling requirements as any AI vendor (Sec 26: NDA, data residency, no training on our data). <strong>When scoping the market price feature, list the data provider</strong> — Group IT will confirm if it needs a separate vendor assessment or if it falls under an existing enterprise agreement.'}
+     ]},
   8:{group:'src',title:'Award Decision — Award & Nego',
      manual:['Review award outcome','Approval submission','Approval process via Coupa workflow'],
      agent:[{t:'Approval submission & approval process',h:true}],
-     tag:'Human'},
+     tag:'Human',
+     policy:[
+       {ok:true, text:'Fully human — no AI in the award or approval loop. Compliant as designed.'},
+       {ok:true, text:'Coupa approval workflow unchanged. No action needed.'}
+     ]},
   9:{group:'po',title:'Purchase Order Creation — Flip to PO  ★ Priority 3',
      manual:['Search Event','Click act on award','Open PRs','Enrich PR (update supplier, Incoterm, need by date)','Submit PR to PO','Check PO in SAP','Submit PO in SAP'],
      agent:[{t:'Search Event',h:true},{t:'Act on award',h:false},{t:'Open PRs',h:false},{t:'Enrich PR (update supplier, Incoterm, need by date)',h:false},{t:'Submit PR to PO',h:false},{t:'Check PO in SAP',h:true},{t:'Submit PO in SAP',h:true}],
-     tag:'AI + Human'},
+     tag:'AI + Human',
+     policy:[
+       {ok:true, text:'Final PO check and SAP submission are human steps — compliant.'},
+       {ok:false, tag:'prep', text:'<strong>Register P3 together with P1 and P2</strong> as one bundle.',
+        action:'P3 touches Coupa + SAP S/4 = same High Complexity classification as P1. <strong>Register all three priorities (P1, P2, P3) as a single AI Initiative portfolio</strong> under one Business Project Owner (Chief Procurement Officer) and one Technical Project Owner (Group IT). One submission, one Group Review session, three builds approved. Much faster than three separate processes.'}
+     ]},
   10:{group:'po',title:'Delivery Monitoring — Expediting  ★ Priority 2',
       manual:["Search Supplier's Response in Email","Check Supplier's Response in Excel",'Update in Excel','Upload Excel to expediting system'],
       agent:[{t:"Read Supplier's Response in Email",h:false},{t:"Check Supplier's Response in Excel",h:false},{t:'Update in Excel',h:false},{t:'Upload Excel to expediting system',h:true}],
-      tag:'AI + Human'}
+      tag:'AI + Human',
+      policy:[
+        {ok:true, text:'Final upload to expediting system is human-controlled — compliant.'},
+        {ok:false, tag:'prep', text:'<strong>Supplier email reading</strong> needs a specific integration sign-off from Group IT.',
+         action:'AI reading incoming supplier emails requires connecting to the corporate mailbox (M365/Exchange). This is not a standard Coupa integration — it needs <strong>Group IT to approve the mailbox connector</strong> and confirm that email content (which may include pricing, delivery commitments, and commercial terms) is within the approved data scope. <strong>Raise this as a specific item in the P1/P2/P3 initiative registration</strong> — do not build the email connector before it is cleared.'}
+      ]}
 };
 
 function buildManual(id,items){const ul=document.getElementById(id);ul.innerHTML='';items.forEach((txt,i)=>{const li=document.createElement('li');li.setAttribute('data-n',i+1);li.innerHTML='<span class="li-text">'+txt+'</span>';ul.appendChild(li);});}
@@ -422,7 +683,22 @@ function showDetail(el,num){
   buildManual('sdp-'+g+'-manual',d.manual);
   buildAgent('sdp-'+g+'-agent',d.agent);
   const isHuman=d.tag==='Human';
-  document.getElementById('sdp-'+g+'-footer').innerHTML='<span class="sdp-badge '+(isHuman?'tag-human':'tag-ai')+'">'+d.tag+'</span>';
+  let footer=document.getElementById('sdp-'+g+'-footer');
+  footer.innerHTML='<span class="sdp-badge '+(isHuman?'tag-human':'tag-ai')+'">'+d.tag+'</span>';
+  const pnEl=document.getElementById('pn-'+g);
+  if(pnEl&&d.policy&&d.policy.length){
+    let html='<div class="policy-note"><div class="pn-label">Before we build this</div><div class="pn-items">';
+    d.policy.forEach((p,i)=>{
+      if(p.ok){
+        html+='<div class="pn-item"><div class="pn-ok">✓</div><div class="pn-text pn-ok-text">'+p.text+'</div></div>';
+      } else {
+        const tagHtml=p.tag?'<span class="pn-tag tag-'+p.tag+'">'+(p.tag==='prep'?'to do':'update')+'</span>':'';
+        html+='<div class="pn-item"><div class="pn-num">'+(i+1)+'</div><div class="pn-text"><span class="pn-title">'+p.text+'</span>'+tagHtml+(p.action?'<br><span class="pn-action">'+p.action+'</span>':'')+'</div></div>';
+      }
+    });
+    html+='</div></div>';
+    pnEl.innerHTML=html;
+  }
   document.querySelectorAll('.step-detail-panel').forEach(p=>p.classList.remove('visible'));
   document.getElementById('detail-'+g).classList.add('visible');
 }
@@ -431,5 +707,29 @@ function switchTab(id){const ids=['overview','basics','agents','orch','mvp'];doc
 function toggleCard(el){el.classList.toggle('open');}
 function toggleAgent(el){el.classList.toggle('open');}
 </script>
+
+<script>
+function toggleTheme(){
+  const r=document.documentElement;
+  const isNowLight=r.classList.toggle('light');
+  const lbl=document.getElementById('themeLabel');
+  lbl.textContent=isNowLight?'Day mode':'Night mode';
+  try{localStorage.setItem('theme',isNowLight?'light':'dark')}catch(e){}
+}
+(function(){
+  try{
+    const saved=localStorage.getItem('theme');
+    const isLight=saved!=='dark';
+    if(isLight){document.documentElement.classList.add('light');}
+    else{document.documentElement.classList.remove('light');}
+    // set label after DOM ready
+    window.addEventListener('DOMContentLoaded',function(){
+      const lbl=document.getElementById('themeLabel');
+      if(lbl) lbl.textContent=isLight?'Day mode':'Night mode';
+    });
+  }catch(e){document.documentElement.classList.add('light');}
+})();
+</script>
+
 </body>
 </html>
